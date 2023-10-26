@@ -16,7 +16,8 @@
 #'
 #' Gets concentration(s) that protect specified percentage(s) of species.
 #'
-#' If `ci = TRUE` uses parameteric bootstrapping to get confidence intervals on the
+#' If `ci = TRUE` and `parametric = TRUE` uses parameteric bootstrapping to get confidence intervals on the
+#' hazard concentrations(s).  If `ci = TRUE` and `parametric = FALSE` uses non-parameteric bootstrapping to get confidence intervals on the
 #' hazard concentrations(s).
 #'
 #' @inheritParams params
