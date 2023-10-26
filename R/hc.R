@@ -68,7 +68,6 @@ no_ssd_hc <- function() {
   args$p <- proportion
   dist <- .dist_tmbfit(x)
   what <- paste0("ssd_q", dist)
-
   est <- do.call(what, args)
   if (!ci) {
     na <- rep(NA_real_, length(proportion))
@@ -81,7 +80,8 @@ no_ssd_hc <- function() {
       ucl = na,
       wt = rep(1, length(proportion)),
       nboot = rep(0L, length(proportion)),
-      pboot = na
+      pboot = na,
+      samples = na
     ))
   }
   censoring <- censoring / rescale
@@ -94,14 +94,16 @@ no_ssd_hc <- function() {
     parametric = parametric,
     control = control
   )
-
+  
+  samples <- sample_estimates(estimates, what, x = proportion)
   cis <- cis_estimates(estimates, what, level = level, x = proportion)
   hc <- tibble(
     dist = dist,
     percent = proportion * 100, est = est * rescale,
     se = cis$se * rescale, lcl = cis$lcl * rescale, ucl = cis$ucl * rescale,
     wt = rep(1, length(proportion)),
-    nboot = nboot, pboot = length(estimates) / nboot
+    nboot = nboot, pboot = length(estimates) / nboot,
+    samples = samples
   )
   replace_min_pboot_na(hc, min_pboot)
 }
@@ -115,7 +117,6 @@ no_ssd_hc <- function() {
   if (is.null(control)) {
     control <- .control_fitdists(x)
   }
-
   data <- .data_fitdists(x)
   rescale <- .rescale_fitdists(x)
   censoring <- .censoring_fitdists(x)
@@ -124,7 +125,9 @@ no_ssd_hc <- function() {
   range_shape2 <- .range_shape2_fitdists(x)
   weighted <- .weighted_fitdists(x)
   unequal <- .unequal_fitdists(x)
-
+  weights <- glance(x)$weight
+  names(weights) <- glance(x)$dist
+  
   if (parametric && ci && identical(censoring, c(NA_real_, NA_real_))) {
     wrn("Parametric CIs cannot be calculated for inconsistently censored data.")
     ci <- FALSE
@@ -138,17 +141,16 @@ no_ssd_hc <- function() {
     nboot <- 0L
   }
   seeds <- seed_streams(length(x))
-  hc <- future_map(x, .ssd_hc_tmbfit,
-    proportion = percent / 100, ci = ci, level = level, nboot = nboot,
-    min_pboot = min_pboot,
-    data = data, rescale = rescale, weighted = weighted, censoring = censoring,
-    min_pmix = min_pmix, range_shape1 = range_shape1, range_shape2 = range_shape2,
-    parametric = parametric, control = control,
-    .options = furrr::furrr_options(seed = seeds)
-  )
 
-  weight <- glance(x)$weight
   if (!average) {
+    hc <- future_map(x, .ssd_hc_tmbfit,  
+      proportion = percent / 100, ci = ci, level = level, nboot = nboot,
+      min_pboot = min_pboot,
+      data = data, rescale = rescale, weighted = weighted, censoring = censoring,
+      min_pmix = min_pmix, range_shape1 = range_shape1, range_shape2 = range_shape2,
+      parametric = parametric, control = control,
+      .options = furrr::furrr_options(seed = seeds)
+    )    
     hc <- mapply(
       function(x, y) {
         x$wt <- y
@@ -162,13 +164,35 @@ no_ssd_hc <- function() {
     hc <- hc[c("dist", "percent", "est", "se", "lcl", "ucl", "wt", "method", "nboot", "pboot")]
     return(hc)
   }
+
+  hc <- future_map(x, .ssd_hc_tmbfit,  
+                     proportion = percent / 100, ci = ci, level = level, nboot = nboot,
+                     min_pboot = min_pboot,
+                     data = data, rescale = rescale, weighted = weighted, censoring = censoring,
+                     min_pmix = min_pmix, range_shape1 = range_shape1, range_shape2 = range_shape2,
+                     parametric = parametric, control = control,
+                     .options = furrr::furrr_options(seed = seeds)
+  ) 
+      
+  samples <- lapply(names(hc), function(x) {
+    sample(as.vector(unlist(hc[[x]]["samples"])), round(nboot*weights[x]))
+   }) |> unlist()  
+  
+  quantile <- quantile(samples, probs = probs(level))
+  hc_out <- data.frame(
+    se = sd(samples), lcl = quantile[1], ucl = quantile[2],
+    row.names = NULL
+  )
+  
   hc <- lapply(hc, function(x) x[c("percent", "est", "se", "lcl", "ucl", "pboot")])
   hc <- lapply(hc, as.matrix)
   hc <- Reduce(function(x, y) {
     abind(x, y, along = 3)
   }, hc)
   suppressMessages(min <- apply(hc, c(1, 2), min))
+  
   suppressMessages(hc <- apply(hc, c(1, 2), weighted.mean, w = weight))
+  
   min <- as.data.frame(min)
   hc <- as.data.frame(hc)
   method <- if (parametric) "parametric" else "non-parametric"
