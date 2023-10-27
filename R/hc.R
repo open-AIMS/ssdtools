@@ -215,6 +215,7 @@ no_ssd_hc <- function() {
                   pboot = new_pboot,
                   wt = 1) |> 
     dplyr::select(dist, percent, est, se, lcl, ucl, wt, method, nboot, pboot)
+  
 }
 
 #' @describeIn ssd_hc Hazard Concentrations for Distributional Estimates
