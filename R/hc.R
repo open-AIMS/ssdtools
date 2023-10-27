@@ -125,8 +125,8 @@ no_ssd_hc <- function() {
   range_shape2 <- .range_shape2_fitdists(x)
   weighted <- .weighted_fitdists(x)
   unequal <- .unequal_fitdists(x)
-  weights <- glance(x)$weight
-  names(weights) <- glance(x)$dist
+  weight <- glance(x)$weight
+  names(weight) <- glance(x)$dist
   
   if (parametric && ci && identical(censoring, c(NA_real_, NA_real_))) {
     wrn("Parametric CIs cannot be calculated for inconsistently censored data.")
@@ -146,8 +146,10 @@ no_ssd_hc <- function() {
     hc <- future_map(x, .ssd_hc_tmbfit,  
       proportion = percent / 100, ci = ci, level = level, nboot = nboot,
       min_pboot = min_pboot,
-      data = data, rescale = rescale, weighted = weighted, censoring = censoring,
-      min_pmix = min_pmix, range_shape1 = range_shape1, range_shape2 = range_shape2,
+      data = data, rescale = rescale, weighted = weighted, 
+      censoring = censoring,
+      min_pmix = min_pmix, range_shape1 = range_shape1, 
+      range_shape2 = range_shape2,
       parametric = parametric, control = control,
       .options = furrr::furrr_options(seed = seeds)
     )    
@@ -161,46 +163,58 @@ no_ssd_hc <- function() {
     )
     hc <- bind_rows(hc)
     hc$method <- if (parametric) "parametric" else "non-parametric"
-    hc <- hc[c("dist", "percent", "est", "se", "lcl", "ucl", "wt", "method", "nboot", "pboot")]
+    hc <- hc[c("dist", "percent", "est", "se", "lcl", "ucl", "wt", 
+               "method", "nboot", "pboot")]
     return(hc)
   }
-
-  hc <- future_map(x, .ssd_hc_tmbfit,  
-                     proportion = percent / 100, ci = ci, level = level, nboot = nboot,
-                     min_pboot = min_pboot,
-                     data = data, rescale = rescale, weighted = weighted, censoring = censoring,
-                     min_pmix = min_pmix, range_shape1 = range_shape1, range_shape2 = range_shape2,
-                     parametric = parametric, control = control,
-                     .options = furrr::furrr_options(seed = seeds)
+ 
+  nboot_vals <- round(round(nboot*weight))
+  # # check values are 1 or greater
+  # nboot_valid <- names(nboot_vals)[which(nboot_vals>0)]
+  # 
+  # # remove distributions where nboot==0
+  # x <- x[nboot_valid]
+  # nboot_vals[nboot_valid]
+  
+  hc <- furrr::future_map2(.x = x, .y = nboot_vals,  
+       ~ .ssd_hc_tmbfit(x = .x, proportion = percent / 100, ci = ci, 
+                        level = level, 
+                        nboot = .y,
+                        min_pboot = min_pboot,
+                        data = data, rescale = rescale, weighted = weighted, 
+                        censoring = censoring,
+                        min_pmix = min_pmix, range_shape1 = range_shape1, 
+                        range_shape2 = range_shape2,
+                        parametric = parametric, control = control),  
+       .options = furrr::furrr_options(seed = seeds)
   ) 
-      
-  samples <- lapply(names(hc), function(x) {
-    sample(as.vector(unlist(hc[[x]]["samples"])), round(nboot*weights[x]))
-   }) |> unlist()  
+
+  hc <- lapply(hc, FUN = function(x) x |> tidyr::unnest_longer(samples)) |> 
+    bind_rows()
+  pboot_chk <- hc |> dplyr::select(dist, pboot) |> unique() |> 
+    dplyr::filter(pboot<min_pboot)
+  dists_fail <- paste(pboot_chk$dist, collapse = "; ")
+
+  if(nrow(pboot_chk)>0) {
+    stop(paste("The ", dists_fail, " distribution(s) fail(s) the minimum bootstrap convergence criteria of ", 
+               min_pboot, ". Please drop the failing distribution(s), or modify pboot.", sep=""))
+  }
   
-  quantile <- quantile(samples, probs = probs(level))
-  hc_out <- data.frame(
-    se = sd(samples), lcl = quantile[1], ucl = quantile[2],
-    row.names = NULL
-  )
+  new_pboot <- nrow(hc)/length(percent)/nboot  
+  method <- if (parametric) "parametric" else "non-parametric"    
   
-  hc <- lapply(hc, function(x) x[c("percent", "est", "se", "lcl", "ucl", "pboot")])
-  hc <- lapply(hc, as.matrix)
-  hc <- Reduce(function(x, y) {
-    abind(x, y, along = 3)
-  }, hc)
-  suppressMessages(min <- apply(hc, c(1, 2), min))
-  
-  suppressMessages(hc <- apply(hc, c(1, 2), weighted.mean, w = weight))
-  
-  min <- as.data.frame(min)
-  hc <- as.data.frame(hc)
-  method <- if (parametric) "parametric" else "non-parametric"
-  tibble(
-    dist = "average", percent = percent, est = hc$est, se = hc$se,
-    lcl = hc$lcl, ucl = hc$ucl, wt = rep(1, length(percent)),
-    method = method, nboot = nboot, pboot = min$pboot
-  )
+  hc |> dplyr::select(percent, samples) |> 
+    dplyr::group_by(percent) |> 
+    dplyr::summarise(est = mean(samples),
+                     lcl = quantile(samples, probs = probs(level)[1]),
+                     ucl = quantile(samples, probs = probs(level)[2]),
+                     se = sd(samples)) |> 
+    dplyr::mutate(dist = "average",
+                  method = method,
+                  nboot = nboot, 
+                  pboot = new_pboot,
+                  wt = 1) |> 
+    dplyr::select(dist, percent, est, se, lcl, ucl, wt, method, nboot, pboot)
 }
 
 #' @describeIn ssd_hc Hazard Concentrations for Distributional Estimates
