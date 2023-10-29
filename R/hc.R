@@ -94,7 +94,7 @@ no_ssd_hc <- function() {
     parametric = parametric,
     control = control
   )
-  
+
   samples <- sample_estimates(estimates, what, x = proportion)
   cis <- cis_estimates(estimates, what, level = level, x = proportion)
   hc <- tibble(
@@ -127,7 +127,7 @@ no_ssd_hc <- function() {
   unequal <- .unequal_fitdists(x)
   weight <- glance(x)$weight
   names(weight) <- glance(x)$dist
-  
+
   if (parametric && ci && identical(censoring, c(NA_real_, NA_real_))) {
     wrn("Parametric CIs cannot be calculated for inconsistently censored data.")
     ci <- FALSE
@@ -143,16 +143,16 @@ no_ssd_hc <- function() {
   seeds <- seed_streams(length(x))
 
   if (!average) {
-    hc <- future_map(x, .ssd_hc_tmbfit,  
+    hc <- future_map(x, .ssd_hc_tmbfit,
       proportion = percent / 100, ci = ci, level = level, nboot = nboot,
       min_pboot = min_pboot,
-      data = data, rescale = rescale, weighted = weighted, 
+      data = data, rescale = rescale, weighted = weighted,
       censoring = censoring,
-      min_pmix = min_pmix, range_shape1 = range_shape1, 
+      min_pmix = min_pmix, range_shape1 = range_shape1,
       range_shape2 = range_shape2,
       parametric = parametric, control = control,
       .options = furrr::furrr_options(seed = seeds)
-    )    
+    )
     hc <- mapply(
       function(x, y) {
         x$wt <- y
@@ -163,75 +163,90 @@ no_ssd_hc <- function() {
     )
     hc <- bind_rows(hc)
     hc$method <- if (parametric) "parametric" else "non-parametric"
-    hc <- hc[c("dist", "percent", "est", "se", "lcl", "ucl", "wt", 
-               "method", "nboot", "pboot")]
+    hc <- hc[c(
+      "dist", "percent", "est", "se", "lcl", "ucl", "wt",
+      "method", "nboot", "pboot"
+    )]
     return(hc)
   }
- 
-  nboot_vals <- round(round(nboot*weight))
-  hc <- furrr::future_map2(.x = x, .y = nboot_vals,  
-       ~ .ssd_hc_tmbfit(x = .x, proportion = percent / 100, ci = ci, 
-                        level = level, 
-                        nboot = .y,
-                        min_pboot = min_pboot,
-                        data = data, rescale = rescale, weighted = weighted, 
-                        censoring = censoring,
-                        min_pmix = min_pmix, range_shape1 = range_shape1, 
-                        range_shape2 = range_shape2,
-                        parametric = parametric, control = control),  
-       .options = furrr::furrr_options(seed = seeds)
-  ) 
 
-  hc <- lapply(hc, FUN = function(x) x |> tidyr::unnest_longer(samples)) |> 
+  nboot_vals <- round(round(nboot * weight))
+  hc <- furrr::future_map2(
+    .x = x, .y = nboot_vals,
+    ~ .ssd_hc_tmbfit(
+      x = .x, proportion = percent / 100, ci = ci,
+      level = level,
+      nboot = .y,
+      min_pboot = min_pboot,
+      data = data, rescale = rescale, weighted = weighted,
+      censoring = censoring,
+      min_pmix = min_pmix, range_shape1 = range_shape1,
+      range_shape2 = range_shape2,
+      parametric = parametric, control = control
+    ),
+    .options = furrr::furrr_options(seed = seeds)
+  )
+
+  hc <- lapply(hc, FUN = function(x) x |> tidyr::unnest_longer(samples)) |>
     bind_rows()
-  pboot_chk <- hc |> dplyr::select(dist, pboot) |> unique() |> 
-    dplyr::filter(pboot<min_pboot)
+  pboot_chk <- hc |>
+    dplyr::select(dist, pboot) |>
+    unique() |>
+    dplyr::filter(pboot < min_pboot)
   dists_fail <- paste(pboot_chk$dist, collapse = "; ")
 
-  if(nrow(pboot_chk)>0) {
-    stop(paste("The ", dists_fail, " distribution(s) fail(s) the minimum 
-               bootstrap convergence criteria of ", 
-               min_pboot, 
-               ". Please drop the failing distribution(s) or modify pboot.", 
-               sep=""))
+  if (nrow(pboot_chk) > 0) {
+    stop(paste("The ", dists_fail, " distribution(s) fail(s) the minimum
+               bootstrap convergence criteria of ",
+      min_pboot,
+      ". Please drop the failing distribution(s) or modify pboot.",
+      sep = ""
+    ))
   }
-  
-  new_pboot <- nrow(hc)/length(percent)/nboot  
-  method <- if (parametric) "parametric" else "non-parametric"    
 
-  if(ci) {
-    hc <- hc |> dplyr::select(percent, samples) |> 
-      dplyr::group_by(percent) |> 
-      dplyr::summarise(est = mean(samples),
-                       lcl = quantile(samples, probs = probs(level)[1], na.rm = TRUE),
-                       ucl = quantile(samples, probs = probs(level)[2], na.rm = TRUE),
-                       se = sd(samples)) |> 
-      dplyr::mutate(dist = "average",
-                    method = method,
-                    nboot = nboot, 
-                    pboot = new_pboot,
-                    wt = 1) |> 
-      dplyr::select(dist, percent, est, se, lcl, ucl, wt, method, nboot, pboot)    
+  new_pboot <- nrow(hc) / length(percent) / nboot
+  method <- if (parametric) "parametric" else "non-parametric"
+
+  if (ci) {
+    hc <- hc |>
+      dplyr::select(percent, samples) |>
+      dplyr::group_by(percent) |>
+      dplyr::summarise(
+        est = mean(samples),
+        lcl = quantile(samples, probs = probs(level)[1], na.rm = TRUE),
+        ucl = quantile(samples, probs = probs(level)[2], na.rm = TRUE),
+        se = sd(samples)
+      ) |>
+      dplyr::mutate(
+        dist = "average",
+        method = method,
+        nboot = nboot,
+        pboot = new_pboot,
+        wt = 1
+      ) |>
+      dplyr::select(dist, percent, est, se, lcl, ucl, wt, method, nboot, pboot)
     return(hc)
   }
 
-  if(any(is.na(percent))) {
-    hc_est <-  NA_real_
+  if (any(is.na(percent))) {
+    hc_est <- NA_real_
   } else {
-   hc <- hc |> dplyr::group_by(percent) |> dplyr::group_split()   
-   names(hc) <- percent
-   hc_est <- sapply(hc, function(x) weighted.mean(x$est, w = weight))
+    hc <- hc |>
+      dplyr::group_by(percent) |>
+      dplyr::group_split()
+    names(hc) <- percent
+    hc_est <- sapply(hc, function(x) weighted.mean(x$est, w = weight))
   }
 
   tibble(
-    dist = "average", percent = percent, est = hc_est, 
+    dist = "average", percent = percent, est = hc_est,
     se = rep(NA_real_, length(percent)),
-    lcl = rep(NA_real_, length(percent)), 
-    ucl = rep(NA_real_, length(percent)), 
+    lcl = rep(NA_real_, length(percent)),
+    ucl = rep(NA_real_, length(percent)),
     wt = rep(1, length(percent)),
-    method = method, nboot = nboot, 
+    method = method, nboot = nboot,
     pboot = rep(NA_real_, length(percent))
-  ) 
+  )
 }
 
 #' @describeIn ssd_hc Hazard Concentrations for Distributional Estimates

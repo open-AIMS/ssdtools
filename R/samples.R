@@ -1,6 +1,3 @@
-
-
-
 xsample_estimates <- function(x, args, what) {
   if (grepl("^ssd_p", what)) {
     args$q <- x
@@ -20,16 +17,3 @@ sample_estimates <- function(estimates, what, x, .names = NULL) {
   x <- lapply(x, xsample_estimates, args, what)
   x
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
