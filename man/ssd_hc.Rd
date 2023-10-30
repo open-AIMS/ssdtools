@@ -67,7 +67,8 @@ A tibble of corresponding hazard concentrations.
 Gets concentration(s) that protect specified percentage(s) of species.
 }
 \details{
-If \code{ci = TRUE} uses parameteric bootstrapping to get confidence intervals on the
+If \code{ci = TRUE} and \code{parametric = TRUE} uses parameteric bootstrapping to get confidence intervals on the
+hazard concentrations(s).  If \code{ci = TRUE} and \code{parametric = FALSE} uses non-parameteric bootstrapping to get confidence intervals on the
 hazard concentrations(s).
 }
 \section{Methods (by class)}{
