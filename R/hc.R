@@ -208,7 +208,6 @@ no_ssd_hc <- function() {
   method <- if (parametric) "parametric" else "non-parametric"
 
   if (ci) {
-    browser()
     hc <- hc |>
       dplyr::select(percent, samples) |>
       dplyr::group_by(percent) |>
