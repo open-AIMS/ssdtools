@@ -187,7 +187,8 @@ no_ssd_hc <- function() {
     .options = furrr::furrr_options(seed = seeds)
   )
 
-  hc <- lapply(hc, FUN = function(x) x |> tidyr::unnest_longer(samples)) |>
+  hc <- lapply(hc, FUN = function(x) x |> 
+    tidyr::unnest_longer(samples)) |>
     bind_rows()
   pboot_chk <- hc |>
     dplyr::select(dist, pboot) |>
