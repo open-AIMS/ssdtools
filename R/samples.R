@@ -1,4 +1,4 @@
-#    Copyright 2023 Australian Government Department of Climate Change, Energy, 
+#    Copyright 2023 Australian Government Department of Climate Change, Energy,
 #    the Environment and Water
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
