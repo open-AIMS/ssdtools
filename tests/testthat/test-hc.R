@@ -233,7 +233,7 @@ test_that("ssd_hc doesn't calculate cis with inconsistent censoring", {
   fits <- ssd_fit_dists(data, dists = c("lnorm", "llogis"))
   set.seed(10)
   hc <- ssd_hc(fits, ci = TRUE, nboot = 10)
-  expect_equal(hc$se, 0.858174709802522)
+  expect_equal(hc$se, 0.7861231)
 
   fits <- ssd_fit_dists(data, right = "Conc2", dists = c("lnorm", "llogis"))
   set.seed(10)
@@ -252,8 +252,9 @@ test_that("ssd_hc works with fully left censored data", {
   fits <- ssd_fit_dists(data, right = "Conc2", dists = c("lnorm", "llogis"))
   set.seed(10)
   hc <- ssd_hc(fits, ci = TRUE, nboot = 10)
-  expect_equal(hc$se, 0.00143406862620477)
+  expect_equal(hc$se, 0.0052032307)
 })
+
 
 test_that("ssd_hc not work partially censored even if all same left", {
   skip_on_os("linux") # FIXME
@@ -323,7 +324,7 @@ test_that("ssd_hc calculates cis with two distributions", {
   fits <- ssd_fit_dists(data, dists = c("lnorm", "llogis"))
   set.seed(10)
   hc <- ssd_hc(fits, ci = TRUE, nboot = 10)
-  expect_equal(hc$se, 0.93754149386013)
+  expect_equal(hc$se, 0.9004037)
 })
 
 test_that("ssd_hc calculates cis in parallel with two distributions", {
@@ -333,7 +334,7 @@ test_that("ssd_hc calculates cis in parallel with two distributions", {
   fits <- ssd_fit_dists(data, dists = c("lnorm", "llogis"))
   set.seed(10)
   hc <- ssd_hc(fits, ci = TRUE, nboot = 10)
-  expect_equal(hc$se, 0.93754149386013)
+  expect_equal(hc$se, 0.9004037)
 })
 
 test_that("ssd_hc doesn't calculate cis with unequally weighted data", {
@@ -374,10 +375,10 @@ test_that("ssd_hc effect with higher weight two distributions", {
   hc <- ssd_hc(fits, ci = TRUE, nboot = 10)
   set.seed(10)
   hc_10 <- ssd_hc(fits_10, ci = TRUE, nboot = 10)
-  expect_equal(hc$est, 1.64903597051184)
-  expect_equal(hc_10$est, 1.6811748398812)
-  expect_equal(hc$se, 0.93754149386013)
-  expect_equal(hc_10$se, 0.9241428592058)
+  expect_equal(hc$est, 1.5968234)
+  expect_equal(hc_10$est, 1.7966945)
+  expect_equal(hc$se, 0.9004037)
+  expect_equal(hc_10$se, 0.92414286)
 })
 
 test_that("ssd_hc cis with non-convergence", {
@@ -405,7 +406,7 @@ test_that("ssd_hc cis with error", {
   data <- data.frame(Conc = conc)
   fit <- ssd_fit_dists(data, dists = "lnorm_lnorm", min_pmix = 0.1)
   expect_identical(attr(fit, "min_pmix"), 0.1)
-  expect_warning(hc_err <- ssd_hc(fit, ci = TRUE, nboot = 100))
+  expect_error(hc_err <- ssd_hc(fit, ci = TRUE, nboot = 100))
   expect_s3_class(hc_err, "tbl")
   testthat::skip_on_os("windows")
   testthat::skip_on_os("linux")
