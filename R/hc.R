@@ -197,12 +197,8 @@ no_ssd_hc <- function() {
   dists_fail <- paste(pboot_chk$dist, collapse = "; ")
 
   if (nrow(pboot_chk) > 0) {
-    stop(paste("The ", dists_fail, " distribution(s) fail(s) the minimum
-               bootstrap convergence criteria of ",
-      min_pboot,
-      ". Please drop the failing distribution(s) or modify pboot.",
-      sep = ""
-    ))
+    warning(paste(dists_fail, " fail the minimum bootstrap convergence criteria of ", 
+                  min_pboot, ".", sep = ""))
   }
 
   new_pboot <- nrow(hc) / length(percent) / nboot

@@ -406,7 +406,7 @@ test_that("ssd_hc cis with error", {
   data <- data.frame(Conc = conc)
   fit <- ssd_fit_dists(data, dists = "lnorm_lnorm", min_pmix = 0.1)
   expect_identical(attr(fit, "min_pmix"), 0.1)
-  expect_error(hc_err <- ssd_hc(fit, ci = TRUE, nboot = 100))
+  expect_warning(hc_err <- ssd_hc(fit, ci = TRUE, nboot = 100))
   expect_s3_class(hc_err, "tbl")
   testthat::skip_on_os("windows")
   testthat::skip_on_os("linux")
