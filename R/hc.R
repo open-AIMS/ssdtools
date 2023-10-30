@@ -96,6 +96,8 @@ no_ssd_hc <- function() {
   )
 
   samples <- sample_estimates(estimates, what, x = proportion)
+  samples <- lapply(samples, FUN = function(x) x*rescale)
+
   cis <- cis_estimates(estimates, what, level = level, x = proportion)
   hc <- tibble(
     dist = dist,
@@ -170,11 +172,12 @@ no_ssd_hc <- function() {
     return(hc)
   }
 
-  nboot_vals <- round(round(nboot * weight))
+  nboot_vals <- round(nboot * weight)
   hc <- furrr::future_map2(
     .x = x, .y = nboot_vals,
     ~ .ssd_hc_tmbfit(
-      x = .x, proportion = percent / 100, ci = ci,
+      x = .x, 
+      proportion = percent / 100, ci = ci,
       level = level,
       nboot = .y,
       min_pboot = min_pboot,
@@ -205,11 +208,12 @@ no_ssd_hc <- function() {
   method <- if (parametric) "parametric" else "non-parametric"
 
   if (ci) {
+    browser()
     hc <- hc |>
       dplyr::select(percent, samples) |>
       dplyr::group_by(percent) |>
       dplyr::summarise(
-        est = mean(samples),
+        est = median(samples),
         lcl = quantile(samples, probs = probs(level)[1], na.rm = TRUE),
         ucl = quantile(samples, probs = probs(level)[2], na.rm = TRUE),
         se = sd(samples)
