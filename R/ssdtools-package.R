@@ -1,4 +1,4 @@
-#    Copyright 2021 Province of British Columbia
+# Copyright 2023 Province of British Columbia
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ utils::globalVariables("where")
 #' @importFrom scales comma manual_pal percent trans_breaks
 #' @importFrom ssddata gm_mean
 #' @importFrom stats coef complete.cases ks.test logLik nobs optim plogis predict qlogis runif sd setNames weighted.mean
-#' @importFrom stats uniroot
+#' @importFrom stats uniroot quantile median
 #' @importFrom stringr str_order
 #' @importFrom tibble as_tibble tibble
 #' @importFrom TMB MakeADFun sdreport

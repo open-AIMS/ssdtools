@@ -1,4 +1,4 @@
-#    Copyright 2021 Province of British Columbia
+# Copyright 2023 Province of British Columbia
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 #' @param at_boundary_ok A flag specifying whether a model with one or more
 #' parameters at the boundary should be considered to have converged (default = FALSE).
 #' @param average A flag specifying whether to model average the estimates.
+#' @param averaging_method A string specifying the method to use when averaging.
 #' @param breaks A character vector
 #' @param bounds A named non-negative numeric vector of the left and right bounds for
 #' uncensored missing (0 and Inf) data in terms of the orders of magnitude
@@ -32,6 +33,7 @@
 #' @param digits A whole number specifying the number of significant figures.
 #' @param dists A character vector of the distribution names.
 #' @param hc A count between 1 and 99 indicating the percent hazard concentration (or NULL).
+#' @param keep_samples A flag specifying whether to keep bootstrap samples.
 #' @param label A string of the column in data with the labels.
 #' @param left A string of the column in data with the concentrations.
 #' @param level A number between 0 and 1 of the confidence level.
@@ -101,8 +103,10 @@
 #' @param xlab A string of the x-axis label.
 #' @param yintercept The y-value for the intersect.
 #' @param ylab A string of the x-axis label.
+#' @param wt_est A data frame with dist, wt, and est columns specifying the
+#' distributions, weights and a list column of estimate data frames with 
+#' term and est columns specifying the estimated value for each parameter.
 #' @param ... Unused.
-
 #' @keywords internal
 #' @name params
 NULL

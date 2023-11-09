@@ -1,4 +1,4 @@
-#    Copyright 2021 Province of British Columbia
+# Copyright 2023 Province of British Columbia
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -226,7 +226,7 @@ no_ssd_hc <- function() {
       tidyr::unnest_longer(samples)) |>
       bind_rows()
     pboot_chk <- hc |>
-      dplyr::select(dist, pboot) |>
+      dplyr::select(.data$dist, .data$pboot) |>
       unique() |>
       dplyr::filter(pboot < min_pboot)
     dists_fail <- paste(pboot_chk$dist, collapse = "; ")
@@ -242,9 +242,9 @@ no_ssd_hc <- function() {
     method <- if (parametric) "parametric" else "non-parametric"
 
     if (ci) {
-      sample_vals <- hc |> dplyr::select(samples)
+      sample_vals <- hc |> dplyr::select(.data$samples)
       hc <- hc |>
-        dplyr::select(percent, samples) |>
+        dplyr::select(.data$percent, .data$samples) |>
         dplyr::group_by(percent) |>
         dplyr::summarise(
           est = median(samples),
@@ -308,7 +308,7 @@ no_ssd_hc <- function() {
         boot_estimates <- lapply(estimates, FUN = function(y) {
           y[[n]] |>
             dplyr::bind_rows(.id = "term") |>
-            tidyr::pivot_longer(cols = everything(), names_to = "term", values_to = "est")
+            tidyr::pivot_longer(cols = dplyr::everything(), names_to = "term", values_to = "est")
         }) |> tibble()
         colnames(boot_estimates) <- "data"
         boot_estimates |>

@@ -11,6 +11,8 @@ parameters at the boundary should be considered to have converged (default = FAL
 
 \item{average}{A flag specifying whether to model average the estimates.}
 
+\item{averaging_method}{A string specifying the method to use when averaging.}
+
 \item{breaks}{A character vector}
 
 \item{bounds}{A named non-negative numeric vector of the left and right bounds for
@@ -38,6 +40,8 @@ relative to the extremes for non-missing values.}
 \item{dists}{A character vector of the distribution names.}
 
 \item{hc}{A count between 1 and 99 indicating the percent hazard concentration (or NULL).}
+
+\item{keep_samples}{A flag specifying whether to keep bootstrap samples.}
 
 \item{label}{A string of the column in data with the labels.}
 
@@ -171,6 +175,10 @@ remove them with a warning.}
 \item{yintercept}{The y-value for the intersect.}
 
 \item{ylab}{A string of the x-axis label.}
+
+\item{wt_est}{A data frame with dist, wt, and est columns specifying the
+distributions, weights and a list column of estimate data frames with
+term and est columns specifying the estimated value for each parameter.}
 
 \item{...}{Unused.}
 }

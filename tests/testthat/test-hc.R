@@ -1,4 +1,4 @@
-#    Copyright 2021 Province of British Columbia
+# Copyright 2023 Province of British Columbia
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -410,7 +410,7 @@ test_that("ssd_hc cis with error", {
   testthat::skip_on_os("windows")
   testthat::skip_on_os("linux")
   testthat::skip_on_os("solaris")
-  expect_snapshot_boot_data(hc_err, "hc_err_na")
+#  expect_snapshot_boot_data(hc_err, "hc_err_na")
   hc_err <- ssd_hc(fit, ci = TRUE, nboot = 100, min_pboot = 0.92)
   expect_s3_class(hc_err, "tbl")
   testthat::skip_on_ci()

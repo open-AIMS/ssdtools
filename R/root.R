@@ -46,7 +46,7 @@ est_args <- function(x) {
 
 ma_fun <- function(wt_est_nest, fun = "p") {
   funs <- paste0("ssd_", fun, wt_est_nest$dist)
-  wts <- wt_est_nest$weight
+  wts <- wt_est_nest$weight / sum(wt_est_nest$weight)
   args <- purrr::map_chr(wt_est_nest$data, est_args)
   fun_args <- paste0(wts, " * ", funs, "(x, ", args, ")", collapse = " + ")
 
@@ -54,22 +54,28 @@ ma_fun <- function(wt_est_nest, fun = "p") {
   eval(parse(text = func))
 }
 
-hc_upper <- function(p, data) {
-  right <- data$right[is.finite(data$right)]
-  # TODO: ensure safe upper bound - use p as well?
-  max(right) * 10
+range_fun <- function(x, wt_est_nest, fun = "p") {
+  funs <- paste0("ssd_", fun, wt_est_nest$dist)
+  args <- purrr::map_chr(wt_est_nest$data, est_args)
+  fun_args <- paste0(funs, "(x, ", args, ")", collapse = ", ")
+  func <- paste0("list(", fun_args, ")", collapse = "")
+  list <- eval(parse(text = func))
+  tlist <- purrr::transpose(list)
+  tlist <- purrr::map(tlist, unlist)
+  min <- purrr::map_dbl(tlist, min)
+  max <- purrr::map_dbl(tlist, max)
+  list(lower = min, upper = max)
 }
 
 .ssd_hp_root <- function(conc, wt_est_nest, ci, level, nboot, min_pboot,
                          data, rescale, weighted, censoring, min_pmix,
                          range_shape1, range_shape2, parametric, control) {
-  q <- conc / rescale
 
-  f <- ma_fun(wt_est_nest, fun = "q")
-  root <- uniroot(f = f, q = q, lower = 0, upper = 1)$root
+  q <- conc/rescale
+  p <- ssd_pmulti(q, wt_est_nest)
 
   tibble(
-    est = root * 100,
+    est = p * 100,
     se = NA_real_,
     lcl = NA_real_,
     ucl = NA_real_,
@@ -80,12 +86,11 @@ hc_upper <- function(p, data) {
 .ssd_hc_root <- function(proportion, wt_est_nest, ci, level, nboot, min_pboot,
                          data, rescale, weighted, censoring, min_pmix,
                          range_shape1, range_shape2, parametric, control) {
-  f <- ma_fun(wt_est_nest, fun = "p")
-  hc_upper <- hc_upper(proportion, data)
-  hc <- uniroot(f = f, p = proportion, lower = 0, upper = hc_upper)$root
+  
+  q <- ssd_qmulti(proportion, wt_est_nest)  
 
   tibble(
-    est = hc * rescale,
+    est = q * rescale,
     se = NA_real_,
     lcl = NA_real_,
     ucl = NA_real_,

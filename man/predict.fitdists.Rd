@@ -41,6 +41,10 @@ fit in the sense of returning a likelihood.}
 
 \item{parametric}{A flag specifying whether to perform parametric as opposed to non-parametric bootstrapping.}
 
+\item{averaging_method}{A string specifying the method to use when averaging.}
+
+\item{keep_samples}{A flag specifying whether to keep bootstrap samples.}
+
 \item{root}{A flag specifying whether to calculate the value by finding the root.}
 
 \item{control}{A list of control parameters passed to \code{\link[stats:optim]{stats::optim()}}.}
