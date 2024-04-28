@@ -43,22 +43,13 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>/pull_request_template.html</loc>
-  </url>
-  <url>
     <loc>/reference/augment.fitdists.html</loc>
   </url>
   <url>
     <loc>/reference/autoplot.fitdists.html</loc>
   </url>
   <url>
-    <loc>/reference/boron_data.html</loc>
-  </url>
-  <url>
     <loc>/reference/boron_pred.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ccme_data.html</loc>
   </url>
   <url>
     <loc>/reference/coef.fitdists.html</loc>
@@ -82,6 +73,9 @@
     <loc>/reference/geom_hcintersect.html</loc>
   </url>
   <url>
+    <loc>/reference/geom_ssd.html</loc>
+  </url>
+  <url>
     <loc>/reference/geom_ssdpoint.html</loc>
   </url>
   <url>
@@ -103,7 +97,19 @@
     <loc>/reference/is_censored.html</loc>
   </url>
   <url>
+    <loc>/reference/licensing_md.html</loc>
+  </url>
+  <url>
     <loc>/reference/params.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pearson1000.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pgompertz.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plgumbel.html</loc>
   </url>
   <url>
     <loc>/reference/predict.fitburrlioz.html</loc>
@@ -112,7 +118,19 @@
     <loc>/reference/predict.fitdists.html</loc>
   </url>
   <url>
+    <loc>/reference/qgompertz.html</loc>
+  </url>
+  <url>
+    <loc>/reference/qlgumbel.html</loc>
+  </url>
+  <url>
     <loc>/reference/reexports.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rgompertz.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rlgumbel.html</loc>
   </url>
   <url>
     <loc>/reference/scale_colour_ssd.html</loc>
@@ -128,6 +146,9 @@
   </url>
   <url>
     <loc>/reference/ssd_dists_bcanz.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ssd_e.html</loc>
   </url>
   <url>
     <loc>/reference/ssd_ecd.html</loc>
@@ -161,6 +182,9 @@
   </url>
   <url>
     <loc>/reference/ssd_hp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ssd_hp_bcanz.html</loc>
   </url>
   <url>
     <loc>/reference/ssd_is_censored.html</loc>
