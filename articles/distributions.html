@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Distributions in ssdtools">
 </head>
 <body>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ssdtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6.9018</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,9 +61,9 @@
                         <h4 data-toc-skip class="author">ssdtools
 Team</h4>
             
-            <h4 data-toc-skip class="date">2024-10-01</h4>
+            <h4 data-toc-skip class="date">2025-04-15</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/bcgov/ssdtools/blob/main/vignettes/distributions.Rmd" class="external-link"><code>vignettes/distributions.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/bcgov/ssdtools/blob/main/vignettes/articles/distributions.Rmd" class="external-link"><code>vignettes/articles/distributions.Rmd</code></a></small>
       <div class="d-none name"><code>distributions.Rmd</code></div>
     </div>
 
@@ -88,51 +88,49 @@ Team</h4>
 <h2 id="distributions-for-ssd-modelling">Distributions for SSD modelling<a class="anchor" aria-label="anchor" href="#distributions-for-ssd-modelling"></a>
 </h2>
 <p>Many authors have noted that there is no guiding theory in
-ecotoxicology to justify any particular distributional form for the SSD
-other than that its domain be restricted to the positive real line <span class="citation">(Newman et al. 2000; Zajdlik 2005; Fox 2016)</span>.
-<!-- (Newman et al. 2000, Zajdlik 2005, Chapman PF & Tarazona J 2007, Fox 2016). --></p>
-<p>Distributions selected to use in model averaging of SSDs must be
-bounded by zero given that effect concentrations cannot be negative.
-They must also be continuous, and generally unbounded on the right.</p>
-<p>Furthermore, the selected distributions within the candidate model
-set should provide a variety of shapes to capture the diversity of
+ecotoxicology to justify a particular distributional form for the SSD
+other than that its domain be restricted to the positive real line <span class="citation">(Newman et al. 2000; Zajdlik 2005; David R. Fox
+2016)</span>. Distributions selected to use in model averaging of SSDs
+must be bounded by zero given that effect concentrations cannot be
+negative. They must also be continuous, and generally unbounded on the
+right. Furthermore, the selected distributions within the candidate
+model set should provide a variety of shapes to capture the diversity of
 shapes in empirical species sensitivity distributions.</p>
-<p>There is a wide range of distributions that have been implemented in
-<code>ssdtools</code>, although not all distributions appear in the
-default set. Here we provide a detailed account of the distributions
-available in <code>ssdtools</code>, and guidance on their use.</p>
+<p>To date 9 distributions have been implemented in
+<code>ssdtools</code>, although only 6 appear in the default set. Here
+we provide a detailed account of all 9 of the distributions available in
+<code>ssdtools</code>, and guidance on their use.</p>
 <div class="section level3">
 <h3 id="original-ssdtools-distributions">Original <code>ssdtools</code> distributions<a class="anchor" aria-label="anchor" href="#original-ssdtools-distributions"></a>
 </h3>
 <p>The log-normal, log-logistic and Gamma distributions have been widely
 used in SSD modelling, and were part of the original distribution set
-for early releases of <code>ssdtools</code> as developed by <a href="https://joss.theoj.org/papers/10.21105/joss.01082.pdf" class="external-link">Thorley and
-Schwarz 2018</a>. They were adopted as the default set of three
-distributions in early updates of <code>ssdtools</code> and the
-associated ShinyApp <span class="citation">(Dalgarno 2021)</span>. All
-three distributions show good convergence properties and are retained as
-part of the default model set in version 2.0 of
-<code>ssdtools</code>.</p>
+for early releases of <code>ssdtools</code> as developed by <span class="citation">Thorley and Schwarz (2018)</span>. They were adopted as
+the default set of three distributions in early updates of
+<code>ssdtools</code> and the associated ShinyApp <span class="citation">(Dalgarno 2021)</span>. All three distributions show
+good convergence properties and are retained as part of the default
+model set in version 2.0 of <code>ssdtools</code>.</p>
 <p>In addition to the log-normal, log-logistic and Gamma distributions,
 the original version of <code>ssdtools</code> as developed by <a href="https://joss.theoj.org/papers/10.21105/joss.01082.pdf" class="external-link">Thorley and
-Schwarz 2018</a> also included three additional distributions in the
+Schwarz (2018)</a> also included three additional distributions in the
 candidate model set, including the log-gumbel, Gompertz and Weibull
 distributions. Of these, the log-Gumbel (otherwise known as the inverse
-Weibull, see below) shows relatively good convergence <span class="citation">(see Figure 32, Fox et al. 2021b)</span>, and is also
-one of the limiting distributions of the Burrr Type 3 distribution
+Weibull, see below) shows relatively good convergence <span class="citation">(see Figure 32, D. Fox et al. 2022)</span>, and is also
+one of the limiting distributions of the Burr Type 3 distribution
 implemented in <code>ssdtools</code>, and has been retained in the
 default model set. The Gompertz and Weibull distributions, however can
 exhibit unstable behaviour, sometimes showing poor convergence, and
 therefore been excluded from the default set <span class="citation">(see
-Figure 32, Fox et al. 2021b)</span></p>
+Figure 32, D. Fox et al. 2022)</span></p>
 </div>
 <div class="section level3">
 <h3 id="burr-iii-distribution">Burr III distribution<a class="anchor" aria-label="anchor" href="#burr-iii-distribution"></a>
 </h3>
 <p>A history of Burrlioz and the primary distributions it used were
-recently summmarized by <span class="citation">Fox et al.
-(2021a)</span>.</p>
-<p><em>“In 2000, Australia and New Zealand (Australian and New Zealand
+recently summmarized by <span class="citation">D. R. Fox et al.
+(2021)</span>.</p>
+<blockquote>
+<p>In 2000, Australia and New Zealand (Australian and New Zealand
 Environment and Conservation Council/Agriculture and Resource Management
 Council of Australia and New Zealand 2000) adopted an SSD‐based method
 for deriving WQBs, following a critical review of multiple WQB
@@ -141,35 +139,36 @@ the use of a 3‐parameter Burr distribution to model the empirical SSD,
 which was implemented in the Burrlioz software tool (Campbell et
 al. 2000). This represented a generalization of the methods previously
 employed by Aldenberg and Slob (1993) because the log–logistic
-distribution was shown to be a speciﬁc case of the Burr family
+distribution was shown to be a specific case of the Burr family
 (Tadikamalla 1980). Recent revision of the derivation method recognized
 that using the 3‐parameter Burr distributions for small sample sizes
 (&lt;8 species) created additional uncertainty by estimating more
-parameters than could be justiﬁed, essentially overﬁtting the data
+parameters than could be justified, essentially overfitting the data
 (Batley et al. 2018). Consequently, the method, and the updated software
 (Burrlioz Ver 2.0), now uses a 2‐parameter log–logistic distribution for
 these small data sets, whereas the Burr type III distribution is used
 for data sets of 8 species or more (Batley et al. 2018; Australian and
-New Zealand Guidelines 2018).”</em>         <span class="citation">(Fox
-et al. 2021a)</span></p>
+New Zealand Guidelines 2018).</p>
+</blockquote>
+<p><span class="citation">(D. R. Fox et al. 2021)</span></p>
 <p>The probability density function,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>b</mi><mo>,</mo><mi>c</mi><mo>,</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">{f_X}(x;b,c,k)</annotation></semantics></math>
 and cumulative distribution function,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>b</mi><mo>,</mo><mi>c</mi><mo>,</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">{F_X}(x;b,c,k)</annotation></semantics></math>
 for the Burr III distribution are:</p>
-<div style="text-align: center;" font-size: color: class="box">
-<b><u>Burr III distribution</u></b>\[\begin{array}{*{20}{c}}
-{{f_X}(x;b,c,k) = \frac{{b\,k\,c}}{{{x^2}}}\frac{{{{\left( {\frac{b}{x}} \right)}^{c - 1}}}}{{{{\left[ {1 + {{\left( {\frac{b}{x}} \right)}^c}} \right]}^{k + 1}}}}{\rm{ }}}&amp;{b,c,k,x &gt; 0}
-\end{array}\]<br>\[\begin{array}{*{20}{c}}
-{{F_X}(x;b,c,k) = \frac{1}{{{{\left[ {1 + {{\left( {\frac{b}{x}} \right)}^c}} \right]}^k}}}{\rm{ }}}&amp;{b,c,k,x &gt; 0}
-\end{array}\]
+<div style="text-align: center; font-size: 1.2em; color: black; border: 1px solid black; padding: 10px; border-radius: 5px;">
+<p><b><u>Burr III Distribution</u></b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>b</mi><mo>,</mo><mi>c</mi><mo>,</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>b</mi><mspace width="0.167em"></mspace><mi>k</mi><mspace width="0.167em"></mspace><mi>c</mi></mrow><msup><mi>x</mi><mn>2</mn></msup></mfrac><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>b</mi><mi>x</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>c</mi><mo>−</mo><mn>1</mn></mrow></msup><msup><mrow><mo stretchy="true" form="prefix">[</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>b</mi><mi>x</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>c</mi></msup><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow></msup></mfrac><mo>;</mo><mspace width="1.0em"></mspace><mi>b</mi><mo>,</mo><mi>c</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>x</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">f_X(x;b,c,k) = \frac{{b\,k\,c}}{{x^2}} \frac{{\left( \frac{b}{x} \right)}^{c - 1}}{{\left[ 1 + \left( \frac{b}{x} \right)^c \right]}^{k + 1}}; \quad b, c, k, x &gt; 0</annotation></semantics></math></p>
+<p><br></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>b</mi><mo>,</mo><mi>c</mi><mo>,</mo><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><msup><mrow><mo stretchy="true" form="prefix">[</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>b</mi><mi>x</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>c</mi></msup><mo stretchy="true" form="postfix">]</mo></mrow><mi>k</mi></msup></mfrac><mo>;</mo><mspace width="1.0em"></mspace><mi>b</mi><mo>,</mo><mi>c</mi><mo>,</mo><mi>k</mi><mo>,</mo><mi>x</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">F_X(x;b,c,k) = \frac{1}{{\left[ 1 + \left( \frac{b}{x} \right)^c \right]}^k}; \quad b, c, k, x &gt; 0</annotation></semantics></math></p>
 </div>
-<hr>
-<h4 id="burr-iii-distribution-1">
-Sample Burr probability density and cumulative distribution functions
-<a class="anchor" aria-label="anchor" href="#burr-iii-distribution-1"></a>
-</h4>
-<p><img src="distributions_files/figure-html/unnamed-chunk-4-1.png" width="576"><img src="distributions_files/figure-html/unnamed-chunk-4-2.png" width="576"></p>
+<p><br></p>
+<div class="figure" style="text-align: center">
+<img src="distributions_files/figure-html/unnamed-chunk-2-1.png" alt="A two panel plot showing several realisations of the Burr type III probability density function on the left panel and the cumulative density function of distribution on the right panel." width="864"><p class="caption">
+Sample Burr probability density (A) and cumulative probability (B)
+functions.
+</p>
+</div>
 <p>While the Burr type III distribution was adopted as the default
 distribution in Burrlioz, it is well known (e.g., Tadikamalla (1980))
 that the Burr III distribution is related to several other theoretical
@@ -183,10 +182,10 @@ fitted instead.</p>
 <p>Specifically:</p>
 <ul>
 <li><p>As c tends to infinity the Burr III distribution tends to the
-inverse (North American) Pareto distribution (see <a href="https://bcgov.github.io/ssdtools/articles/E_additional-technical-details.html" class="external-link">technical
+inverse (North American) Pareto distribution (see <a href="https://bcgov.github.io/ssdtools/articles/E_additional-technical-details.html">technical
 details</a>)</p></li>
 <li><p>As k tends to infinity the Burr III distribution tends to the
-inverse Weibull (log-Gumbel) distribution (see <a href="https://bcgov.github.io/ssdtools/articles/E_additional-technical-details.html" class="external-link">technical
+inverse Weibull (log-Gumbel) distribution (see <a href="https://bcgov.github.io/ssdtools/articles/E_additional-technical-details.html">technical
 details</a>)</p></li>
 </ul>
 <p>In practical terms, if the Burr III distribution is fitted and k is
@@ -199,8 +198,8 @@ Gumbel) distributions are used by the Burrlioz software, these have been
 implemented in <code>ssdtools</code>. However, we have found there are
 stability issues with both the Burr type III, as well as the inverse
 Pareto distributions, which currently precludes their inclusion in the
-default model set (see <span class="citation">Fox et al. (2021b)</span>,
-and below for more details).</p>
+default model set (see <span class="citation">D. Fox et al.
+(2022)</span>, and below for more details).</p>
 </div>
 <div class="section level3">
 <h3 id="bimodal-distributions">Bimodal distributions<a class="anchor" aria-label="anchor" href="#bimodal-distributions"></a>
@@ -211,13 +210,13 @@ convenient and more realistic way of modelling bimodal toxicity data
 heavy, statistical mixture models provide a better conceptual match to
 the inherent underlying data generating process since they directly
 model bimodality as a mixture of 2 underlying univariate distributions
-that represent, for example, different modes of action <span class="citation">(Fox et al. 2021a)</span>. It has been postulated that
-a mixture-model would only be selected in a model-averaging context when
-the fit afforded by the mixture is demonstrably better than the fit
+that represent, for example, different modes of action <span class="citation">(D. R. Fox et al. 2021)</span>. It has been postulated
+that a mixture-model would only be selected in a model-averaging context
+when the fit afforded by the mixture is demonstrably better than the fit
 afforded by any single distribution. This is a consequence of the high
 penalty in AICc associated with the increased number of parameters (p in
-Equation 7 of <span class="citation">(Fox et al. 2021a)</span>) and will
-be most pronounced for relatively small sample sizes.</p>
+Equation 7 of <span class="citation">(D. R. Fox et al. 2021)</span>) and
+will be most pronounced for relatively small sample sizes.</p>
 <p>The TMB version of <code>ssdtools</code> now includes the option of
 fitting two mixture distributions, individually or as part of a model
 average set. These can be fitted using <code>ssdtools</code> by
@@ -226,25 +225,22 @@ supplying the strings “llogis_llogis” and/or “lnorm_lnorm” to the
 <p>The underlying code for these mixtures has three components: the
 likelihood function required for TMB; exported R functions to allow the
 usual methods for a distribution to be called (p, q and r); and a set of
-supporting R functions (see <span class="citation">Fox et al.
-(2021b)</span> Appendix D for more details). Both mixtures have five
+supporting R functions (see <span class="citation">D. Fox et al.
+(2022)</span> Appendix D for more details). Both mixtures have five
 parameters - two parameters for each of the component distributions and
 a mixing parameter (pmix) that defines the weighting of the two
 distributions in the ‘mixture.’</p>
-<div class="section level6">
-<h6 id="sample-lognormal-mixture-distributions">Sample lognormal mixture distributions<a class="anchor" aria-label="anchor" href="#sample-lognormal-mixture-distributions"></a>
-</h6>
-<h4 id="sample-lognormal-mixture-distributions-1">
-Sample lognormal mixture probability density and cumulative distribution
-functions
-<a class="anchor" aria-label="anchor" href="#sample-lognormal-mixture-distributions-1"></a>
-</h4>
-<p><img src="distributions_files/figure-html/unnamed-chunk-5-1.png" width="576"><img src="distributions_files/figure-html/unnamed-chunk-5-2.png" width="576"></p>
+<div class="figure" style="text-align: center">
+<img src="distributions_files/figure-html/unnamed-chunk-3-1.png" alt="A two panel plot showing several realisations of the lognormal lognormal mixture probability density function on the left panel and the cumulative density function of distribution on the right panel." width="864"><p class="caption">
+Sample lognormal lognormal mixture probability density (A) and
+cumulative probability (B) functions.
+</p>
+</div>
 <p><br>As can be see from the plot above, the mixture distributions
 provide a highly flexible means of modelling <em>bimodality</em> in an
 emprical SSD. This happens, for example, when the toxicity data for some
 toxicant include both animal and plant species, or there are different
-modes of action operating. Unfortunately, this increased flexibilty
+modes of action operating. Unfortunately, this increased flexibility
 comes with a high penalty in the model-averaging process. The
 combination of small sample sizes and a high parameter count (typically
 5 or more) means that mixture distributions will be down-weighted - even
@@ -261,7 +257,6 @@ but preferably
 where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
 is the number of model parameters.</p>
-</div>
 </div>
 </div>
 <div class="section level2">
@@ -292,7 +287,7 @@ continuous distribution that has both right and left tails.</p>
 simulation studies, as well as some detailed technical examinations of
 the various candidate distributions to examine issues of bias, coverage
 and numerical stability. A detailed account of our findings can be found
-in our report <span class="citation">(Fox et al. 2021b)</span> and are
+in our report <span class="citation">(D. Fox et al. 2022)</span> and are
 not repeated in detail here, although some of the issues associated with
 individual distributions are outlined below.</p>
 <div class="section level3">
@@ -305,7 +300,11 @@ distributions</p>
 <p>The default distributions are plotted below with a mean of 2 and
 standard deviation of 2 on the (natural) log concentration scale or
 around 7.4 on the concentration scale.</p>
-<p><img src="distributions_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<div class="figure">
+<img src="distributions_files/figure-html/unnamed-chunk-4-1.png" alt="The cumulative distribution function of the six default distributions using a mean and standard deviation of 2 for all. The distributions included are the gammal, lgumbel, llogis, lnorm, lnorm_lnorm and weibull." width="672"><p class="caption">
+Currently recommended default distributions.
+</p>
+</div>
 </div>
 </div>
 <div class="section level2">
@@ -318,28 +317,26 @@ around 7.4 on the concentration scale.</p>
 fitted using <code>ssdtools</code> by supplying the string
 <code>burrIII3</code> to the <code>dists</code> argument in the
 <code>ssd_fit_dists</code> call.</p>
-<div style="text-align: center;" font-size: color: class="box">
-<b><u>Burr III distribution</u></b>
-
-<br><br><i>See above for details</i>
-
+<div style="text-align: center; font-size: 1.2em; color: black; border: 1px solid black; padding: 10px; border-radius: 5px;">
+<p><b><u>Burr III distribution</u></b></p>
+<p><br><br><i>See above for details</i></p>
 </div>
-<p><br> The Burr family of distributions has been central to the
-derivation of guideline values in Australia and New Zealand for over 20
-yr <span class="citation">(Fox et al. 2021a)</span>. While offering a
-high degree of ﬂexibility, experience with these distributions during
-that time has repeatedly highlighted numerical stability and convergence
-issues when parameters are estimated using maximum likelihood <span class="citation">(Fox et al. 2021a)</span>. This is thought to be due to
-the high degree of collinearity between parameter estimates and/or
-relatively ﬂat likelihood proﬁles <span class="citation">(Fox et al.
-2021a)</span>, and is one of the motivations behind the logic coded into
-Burrlioz to revert to either of the two limiting distributions. Burr
-Type 3 distribution is not currently one of the recommended
-distributionsin the default model set. This is because of 1) the
-convergence issues associated with the Burr Type 3 distribution, 2) the
-fact that reverting to a limiting two parameter distribution does not
-fit easily within a model averaging framework, and 3) that one of the
-two limiting distributions (the inverse Pareto, see below) also has
+<p><br></p>
+<p>The Burr family of distributions has been central to the derivation
+of guideline values in Australia and New Zealand for over 20 yr <span class="citation">(D. R. Fox et al. 2021)</span>. While offering a high
+degree of flexibility, experience with these distributions during that
+time has repeatedly highlighted numerical stability and convergence
+issues when parameters are estimated using maximum likelihood <span class="citation">(D. R. Fox et al. 2021)</span>. This is thought to be
+due to the high degree of collinearity between parameter estimates
+and/or relatively flat likelihood profiles <span class="citation">(D. R.
+Fox et al. 2021)</span>, and is one of the motivations behind the logic
+coded into Burrlioz to revert to either of the two limiting
+distributions. Burr Type 3 distribution is not currently one of the
+recommended distributions in the default model set. This is because of
+1) the convergence issues associated with the Burr Type 3 distribution,
+2) the fact that reverting to a limiting two parameter distribution does
+not fit easily within a model averaging framework, and 3) that one of
+the two limiting distributions (the inverse Pareto, see below) also has
 estimation and convergence issues.</p>
 </div>
 <div class="section level4">
@@ -348,7 +345,7 @@ estimation and convergence issues.</p>
 <p>The <a href="https://en.wikipedia.org/wiki/Log-normal_distribution" class="external-link">log-normal</a>
 distribution is a commonly used distribution in the natural sciences -
 particularly as a probability model to describe right (positive)-skewed
-pehnomena such as <em>concentration</em> data.</p>
+phenomena such as <em>concentration</em> data.</p>
 <p>A random variable,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
 is lognormally distributed if the <em>logarithm</em> of
@@ -356,20 +353,22 @@ is lognormally distributed if the <em>logarithm</em> of
 is normally distributed. The <em>pdf</em> of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
 is given by</p>
-<div style="text-align: center;" font-size: color: class="box">
-<b><u>Lognormal distribution</u></b>
-\[{f_X}\left( {x;\mu ,\sigma } \right) = \frac{1}{{\sqrt {2\pi } {\kern 1pt} \sigma x}}\exp \left[ { - \frac{{{{\left( {\ln x - \mu } \right)}^2}}}{{2{\sigma ^2}}}} \right]{\rm{  ;  }}x,\sigma  &gt; 0,\; - \infty  
-<p>The lognormal distribution was selected as the starting distribution
+<div style="text-align: center; font-size: 1.2em; color: black; border: 1px solid black; padding: 10px; border-radius: 5px;">
+<p><b><u>Log-normal Distribution</u></b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>μ</mi><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mrow><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt><mspace width="0.222em"></mspace><mi>σ</mi><mi>x</mi></mrow></mfrac><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mo>−</mo><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mo>ln</mo><mi>x</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mo>;</mo><mspace width="0.222em"></mspace><mi>x</mi><mo>,</mo><mi>σ</mi><mo>&gt;</mo><mn>0</mn><mo>;</mo><mspace width="0.222em"></mspace><mo>−</mo><mi>∞</mi><mo>&lt;</mo><mi>μ</mi><mo>&lt;</mo><mi>∞</mi></mrow><annotation encoding="application/x-tex">{f_X}\left( x; \mu, \sigma \right) = \frac{1}{\sqrt{2\pi}\ \sigma x}\exp \left[ - \frac{\left( {\ln x - \mu } \right)^2}{2\sigma^2} \right] ;\ x,\sigma  &gt; 0;\ - \infty  &lt; \mu  &lt; \infty</annotation></semantics></math></p>
+</div>
+<p><br></p>
+<p>The log-normal distribution was selected as the starting distribution
 given the data are for effect concentrations. The log-normal
 distribution can be fitted using <code>ssdtools</code> supplying the
 string <code>lnorm</code> to the <code>dists</code> argument in the
 <code>ssd_fit_dists</code> call.</p>
-<hr>
-<h4>
-Sample lognormal probability density and cumulative distribution
-functions
-</h4>
-<p><img src="distributions_files/figure-html/unnamed-chunk-7-1.png" width="576"><img src="distributions_files/figure-html/unnamed-chunk-7-2.png" width="576"></p>
+<div class="figure" style="text-align: center">
+<img src="distributions_files/figure-html/unnamed-chunk-5-1.png" alt="A two panel plot showing several realisations of the lognormal probability density function on the left panel and the cumulative density function of distribution on the right panel." width="864"><p class="caption">
+Sample lognormal probability density (A) and cumulative probability (B)
+functions.
+</p>
+</div>
 </div>
 <div class="section level4">
 <h4 id="log-logistic-distribution">Log-logistic distribution<a class="anchor" aria-label="anchor" href="#log-logistic-distribution"></a>
@@ -380,68 +379,49 @@ is similarly defined, that is: if
 has a log-logistic distribution, then
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Y = \ln (X)</annotation></semantics></math>
 has a <em>logistic</em> distribution.</p>
-<div style="text-align: center;" font-size: color: class="box">
-<b><u>Log-logistic distribution</u></b>
-\[\begin{array}{l}
-\begin{array}{*{20}{c}}
-{{f_Y}\left( {y;\alpha ,\beta } \right) = \frac{{\left( {{\raise0.5ex\hbox{$\scriptstyle \beta $}
-\kern-0.1em/\kern-0.15em
-\lower0.25ex\hbox{$\scriptstyle \alpha $}}} \right){{\left( {{\raise0.5ex\hbox{$\scriptstyle y$}
-\kern-0.1em/\kern-0.15em
-\lower0.25ex\hbox{$\scriptstyle \alpha $}}} \right)}^{\beta  - 1}}}}{{{{\left[ {1 + {{\left( {{\raise0.5ex\hbox{$\scriptstyle y$}
-\kern-0.1em/\kern-0.15em
-\lower0.25ex\hbox{$\scriptstyle \alpha $}}} \right)}^\beta }} \right]}^2}}};}&amp;{y,}
-\end{array}\alpha ,\beta  &gt; 0\\
-\begin{array}{*{20}{c}}
-{{F_Y}\left( {y;\alpha ,\beta } \right) = \frac{{{{\left( {{\raise0.5ex\hbox{$\scriptstyle y$}
-\kern-0.1em/\kern-0.15em
-\lower0.25ex\hbox{$\scriptstyle \alpha $}}} \right)}^\beta }}}{{1 + {{\left( {{\raise0.5ex\hbox{$\scriptstyle y$}
-\kern-0.1em/\kern-0.15em
-\lower0.25ex\hbox{$\scriptstyle \alpha $}}} \right)}^\beta }}};}&amp;{y,}
-\end{array}\alpha ,\beta  &gt; 0
-\end{array}\]
+<div style="text-align: center; font-size: 1.2em; color: black; border: 1px solid black; padding: 10px; border-radius: 5px;">
+<p><b><u>Log-logistic Distribution</u></b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>Y</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>;</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>β</mi><mi>α</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>y</mi><mi>α</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>β</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><msup><mrow><mo stretchy="true" form="prefix">[</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>y</mi><mi>α</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>β</mi></msup><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mfrac><mo>;</mo><mspace width="1.0em"></mspace><mi>y</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{f_Y}\left( {y;\alpha ,\beta } \right) = \frac{\left( \frac{\beta}{\alpha} \right) \left( \frac{y}{\alpha} \right)^{\beta - 1}}{\left[ 1 + \left( \frac{y}{\alpha} \right)^\beta \right]^2}; \quad y, \alpha, \beta &gt; 0</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>Y</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>;</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>y</mi><mi>α</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>β</mi></msup><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>y</mi><mi>α</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>β</mi></msup></mrow></mfrac><mo>;</mo><mspace width="1.0em"></mspace><mi>y</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{F_Y}\left( {y;\alpha ,\beta } \right) = \frac{\left( \frac{y}{\alpha} \right)^\beta}{1 + \left( \frac{y}{\alpha} \right)^\beta}; \quad y, \alpha, \beta &gt; 0</annotation></semantics></math></p>
 </div>
-<p><br>letting
+<p><br></p>
+<p>letting
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mu  = \ln \left( \alpha  \right)</annotation></semantics></math>
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><mfrac><mn>1</mn><mi>β</mi></mfrac></mrow><annotation encoding="application/x-tex">s = \frac{1}{\beta }</annotation></semantics></math>
 we have:</p>
-<div style="text-align: center;" font-size: color: class="box">
-<b><u>Logistic distribution</u></b>
-\[\begin{array}{l}
-\begin{array}{*{20}{c}}
-{{f_X}\left( {x;\mu ,s} \right) = \frac{{{e^{ - x}}}}{{{{\left( {1 + {e^{ - x}}} \right)}^2}}};}&amp;{x,s &gt; 0,\; - \infty   0,\; - \infty  
-<p><br> The log-logistic distribution is often used as a candidate SSD
+<div style="text-align: center; font-size: 1.2em; color: black; border: 1px solid black; padding: 10px; border-radius: 5px;">
+<p><b><u>Logistic Distribution</u></b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>μ</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mfrac><mo>;</mo><mspace width="1.0em"></mspace><mi>x</mi><mo>,</mo><mi>s</mi><mo>&gt;</mo><mn>0</mn><mo>,</mo><mspace width="0.278em"></mspace><mo>−</mo><mi>∞</mi><mo>&lt;</mo><mi>μ</mi><mo>&lt;</mo><mi>∞</mi></mrow><annotation encoding="application/x-tex">{f_X}\left( {x;\mu ,s} \right) = \frac{e^{-x}}{\left( 1 + e^{-x} \right)^2}; \quad x, s &gt; 0, \; -\infty &lt; \mu &lt; \infty</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>μ</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mfrac><mrow><mi>x</mi><mo>−</mo><mi>μ</mi></mrow><mi>s</mi></mfrac></mrow></msup></mrow></mfrac><mo>;</mo><mspace width="1.0em"></mspace><mi>x</mi><mo>,</mo><mi>s</mi><mo>&gt;</mo><mn>0</mn><mo>,</mo><mspace width="0.278em"></mspace><mo>−</mo><mi>∞</mi><mo>&lt;</mo><mi>μ</mi><mo>&lt;</mo><mi>∞</mi></mrow><annotation encoding="application/x-tex">{F_X}\left( {x;\mu ,s} \right) = \frac{1}{1 + e^{-\frac{x - \mu}{s}}}; \quad x, s &gt; 0, \; -\infty &lt; \mu &lt; \infty</annotation></semantics></math></p>
+</div>
+<p><br></p>
+<p>The log-logistic distribution is often used as a candidate SSD
 primarily because of its analytic tractability <span class="citation">(Aldenberg and Slob 1993)</span>. We included it
 because it has wider tails than the log-normal and because it is a
 specific case of the more general Burr family of distributions <span class="citation">Burr (1942)</span>. The log-logistic distribution can
 be fitted using <code>ssdtools</code> by supplying the string
 <code>lnorm</code> to the <code>dists</code> argument in the
 <code>ssd_fit_dists</code> call.</p>
-<hr>
-<h4>
-Sample Log-logistic probability density and cumulative distribution
-functions
-</h4>
-<p><img src="distributions_files/figure-html/unnamed-chunk-8-1.png" width="576"><img src="distributions_files/figure-html/unnamed-chunk-8-2.png" width="576"></p>
+<div class="figure" style="text-align: center">
+<img src="distributions_files/figure-html/unnamed-chunk-6-1.png" alt="A two panel plot showing several realisations of the log logistic probability density function on the left panel and the cumulative density function of distribution on the right panel." width="864"><p class="caption">
+Sample Log logistic probability density (A) and cumulative probability
+(B) functions.
+</p>
+</div>
 </div>
 <div class="section level4">
 <h4 id="gamma-distribution">Gamma distribution<a class="anchor" aria-label="anchor" href="#gamma-distribution"></a>
 </h4>
 <p>The two-parameter <a href="https://en.wikipedia.org/wiki/Gamma_distribution" class="external-link">gamma</a>
 distribution has the following <em>pdf</em> and <em>cdf</em>.</p>
-<div style="text-align: center;" font-size: color: class="box">
-<b><u>Gamma distribution</u></b>
-\[\begin{array}{l}
-\begin{array}{*{20}{c}}
-{{f_X}\left( {x;b,c} \right) = \frac{{{x^{c - 1}}{e^{ - \left( {\frac{x}{b}} \right)}}}}{{{b^c}\,\Gamma \left( c \right)}}}&amp;{0 \le x}
-\end{array}  0\\
-\begin{array}{*{20}{c}}
-{{F_X}\left( {x;b,c} \right) = \frac{1}{{\,\Gamma \left( c \right)}}\,\gamma \left( {c,\frac{x}{b}} \right)}&amp;{0 \le x}
-\end{array}  0
-\end{array}\]
+<div style="text-align: center; font-size: 1.2em; color: black; border: 1px solid black; padding: 10px; border-radius: 5px;">
+<p><b><u>Gamma Distribution</u></b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>b</mi><mo>,</mo><mi>c</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><msup><mi>x</mi><mrow><mi>c</mi><mo>−</mo><mn>1</mn></mrow></msup><msup><mi>e</mi><mrow><mo>−</mo><mfrac><mi>x</mi><mi>b</mi></mfrac></mrow></msup></mrow><mrow><msup><mi>b</mi><mi>c</mi></msup><mspace width="0.167em"></mspace><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>c</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>0</mn><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mi>∞</mi><mo>,</mo><mi>b</mi><mo>,</mo><mi>c</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{f_X}\left( {x;b,c} \right) = \frac{x^{c - 1} e^{-\frac{x}{b}}}{b^c \, \Gamma(c)}, \quad 0 \leq x &lt; \infty,b,c &gt; 0</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>b</mi><mo>,</mo><mi>c</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>c</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mspace width="0.167em"></mspace><mi>γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>c</mi><mo>,</mo><mfrac><mi>x</mi><mi>b</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="1.0em"></mspace><mn>0</mn><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mi>∞</mi><mo>,</mo><mi>b</mi><mo>,</mo><mi>c</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{F_X}\left( {x;b,c} \right) = \frac{1}{\Gamma(c)} \, \gamma\left(c, \frac{x}{b}\right), \quad 0 \leq x &lt; \infty,b,c &gt; 0</annotation></semantics></math></p>
 </div>
-<p><br>where
+<p><br></p>
+<p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo>⋅</mo><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\Gamma \left(  \cdot  \right)</annotation></semantics></math>
 is the <em>gamma</em> function (in <code>R</code> this is simply
 <code>gamma(x)</code>) and
@@ -457,93 +437,72 @@ and 2) it has wider tails.</p>
 <p>The gamma distribution can be fitted using <code>ssdtools</code> by
 supplying the string “gamma” to the <em>dists</em> argument in the
 <em>ssd_fit_dists</em> call.</p>
-<hr>
-<h4 id="gamma-distribution-1">
-Sample gamma probability density and cumulative distribution functions
-<a class="anchor" aria-label="anchor" href="#gamma-distribution-1"></a>
-</h4>
-<p><img src="distributions_files/figure-html/unnamed-chunk-9-1.png" width="576"><img src="distributions_files/figure-html/unnamed-chunk-9-2.png" width="576"></p>
-<hr>
+<div class="figure" style="text-align: center">
+<img src="distributions_files/figure-html/unnamed-chunk-7-1.png" alt="A two panel plot showing several realisations of the Gamma density function on the left panel and the cumulative density function of distribution on the right panel." width="864"><p class="caption">
+Sample gamma probability density (A) and cumulative probability (B)
+functions.
+</p>
+</div>
 </div>
 <div class="section level4">
 <h4 id="log-gumbel-inverse-weibull-distribution">Log-gumbel (inverse Weibull) distribution<a class="anchor" aria-label="anchor" href="#log-gumbel-inverse-weibull-distribution"></a>
 </h4>
 <p>The log-gumbel distribution is a two-parameter distribution commonly
-used to model extreme values.</p>
-<p>The log-gumbel distribution can be fitted using <code>ssdtools</code>
-by supplying the string <code>lgumbel</code> to the <code>dists</code>
-argument in the <code>ssd_fit_dists</code> call.</p>
-<p>The two-parameter log-gumbel distribution has the following
+used to model extreme values. The log-gumbel distribution can be fitted
+using <code>ssdtools</code> by supplying the string <code>lgumbel</code>
+to the <code>dists</code> argument in the <code>ssd_fit_dists</code>
+call. The two-parameter log-gumbel distribution has the following
 <em>pdf</em> and <em>cdf</em>:</p>
-<div style="text-align: center;" font-size: color: class="box">
-<b><u>Log-Gumbel distribution</u></b>
-\[\begin{array}{l}
-\begin{array}{*{20}{c}}
-{{f_X}\left( {x;\alpha ,\beta } \right) = \frac{{\beta \,{e^{ - {{(\alpha x)}^{ - \beta }}}}}}{{{\alpha ^\beta }\,{x^{\beta  + 1}}}}}&amp;;
-\end{array}\quad x,\alpha ,\beta  &gt; 0\\
-\begin{array}{*{20}{c}}
-{{F_X}\left( {x;\alpha ,\beta } \right) = {e^{ - {{(\alpha x)}^{ - \beta }}}}}&amp;;
-\end{array}\quad x,\alpha ,\beta  &gt; 0
-\end{array}\]
+<div style="text-align: center; font-size: 1.2em; color: black; border: 1px solid black; padding: 10px; border-radius: 5px;">
+<p><b><u>Log-Gumbel Distribution</u></b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>β</mi><mspace width="0.167em"></mspace><msup><mi>e</mi><mrow><mo>−</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mi>β</mi></mrow></msup></mrow></msup></mrow><mrow><msup><mi>α</mi><mi>β</mi></msup><mspace width="0.167em"></mspace><msup><mi>x</mi><mrow><mi>β</mi><mo>+</mo><mn>1</mn></mrow></msup></mrow></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mi>x</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{f_X}\left( {x;\alpha ,\beta } \right) = \frac{\beta \, e^{-(\alpha x)^{-\beta}}}{\alpha^\beta \, x^{\beta + 1}}, \quad x, \alpha, \beta &gt; 0</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mi>β</mi></mrow></msup></mrow></msup><mo>,</mo><mspace width="1.0em"></mspace><mi>x</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{F_X}\left( {x;\alpha ,\beta } \right) = e^{-(\alpha x)^{-\beta}}, \quad x, \alpha, \beta &gt; 0</annotation></semantics></math></p>
 </div>
-<hr>
-<h4 id="log-gumbel-inverse-weibull-distribution-1">
-Sample log-Gumbel probability density and cumulative distribution
-functions
-<a class="anchor" aria-label="anchor" href="#log-gumbel-inverse-weibull-distribution-1"></a>
-</h4>
-<img src="distributions_files/figure-html/unnamed-chunk-10-1.png" width="576"><img src="distributions_files/figure-html/unnamed-chunk-10-2.png" width="576"><hr>
+<p><br></p>
+<div class="figure" style="text-align: center">
+<img src="distributions_files/figure-html/unnamed-chunk-8-1.png" alt="A two panel plot showing several realisations of the log Gumbel probability density function on the left panel and the cumulative density function of distribution on the right panel. The log Gumbel is also known as the inverse Weibull distribution." width="864"><p class="caption">
+Sample Log-Gumbel probability density (A) and cumulative probability (B)
+functions.
+</p>
+</div>
 </div>
 <div class="section level4">
 <h4 id="gompertz-distribution">Gompertz distribution<a class="anchor" aria-label="anchor" href="#gompertz-distribution"></a>
 </h4>
 <p>The Gompertz distribution is a flexible distribution that exhibits
-both positive and negative skewness.</p>
-<p>The Gompertz distribution can be fitted using <code>ssdtools</code>
-by supplying the string <code>gompertz</code> to the <code>dists</code>
-argument in the <code>ssd_fit_dists</code> call.</p>
-<p>We condiser two parameterisations of the Gompertz distribution.The
-first, as given in <a href="https://en.wikipedia.org/wiki/Gompertz_distribution" class="external-link">Wikipedia</a>
+both positive and negative skewness. The Gompertz distribution can be
+fitted using <code>ssdtools</code> by supplying the string
+<code>gompertz</code> to the <code>dists</code> argument in the
+<code>ssd_fit_dists</code> call. We consider two parameterisations of
+the Gompertz distribution. The first, as given in <a href="https://en.wikipedia.org/wiki/Gompertz_distribution" class="external-link">Wikipedia</a>
 and also used in <code>ssdtools</code> [Gompertz] has the following
 <em>pdf</em> and <em>cdf</em>:</p>
-<div style="text-align: center;" font-size: color: class="box">
-<b><u>Gompertz distribution: Parameterisation I</u></b>
-\[\begin{array}{l}
-\begin{array}{*{20}{c}}
-{{f_X}\left( {x;\eta ,b} \right) = b{\kern 1pt} \eta \exp \left( {\eta  + bx - \eta {e^{bx}}} \right)}&amp;;
-\end{array}\quad 0 \le x  0\\
-\begin{array}{*{20}{c}}
-{{F_X}\left( {x;\eta ,b} \right) = 1 - \exp \left[ { - \eta \left( {{e^{bx}} - 1} \right)} \right]}&amp;;
-\end{array}\quad 0 \le x  0
-\end{array}\]
+<div style="text-align: center; font-size: 1.2em; color: black; border: 1px solid black; padding: 10px; border-radius: 5px;">
+<p><b><u>Gompertz Distribution: Parameterisation I</u></b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>η</mi><mo>,</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>b</mi><mi>η</mi><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>η</mi><mo>+</mo><mi>b</mi><mi>x</mi><mo>−</mo><mi>η</mi><msup><mi>e</mi><mrow><mi>b</mi><mi>x</mi></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="1.0em"></mspace><mn>0</mn><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mi>∞</mi><mo>,</mo><mi>η</mi><mo>,</mo><mi>b</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{f_X}\left( {x;\eta ,b} \right) = b \eta \exp\left(\eta + bx - \eta e^{bx}\right), \quad 0 \leq x &lt; \infty, \eta, b &gt; 0</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>η</mi><mo>,</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mo>−</mo><mi>η</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>e</mi><mrow><mi>b</mi><mi>x</mi></mrow></msup><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mo>,</mo><mspace width="1.0em"></mspace><mn>0</mn><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mi>∞</mi><mo>,</mo><mi>η</mi><mo>,</mo><mi>b</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{F_X}\left( {x;\eta ,b} \right) = 1 - \exp\left[ -\eta \left(e^{bx} - 1\right) \right], \quad 0 \leq x &lt; \infty, \eta, b &gt; 0</annotation></semantics></math></p>
 </div>
+<p><br></p>
 <p>The second parameterisation in which the <em>product</em>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mi>η</mi></mrow><annotation encoding="application/x-tex">b\eta</annotation></semantics></math>
 in the formulae above is replaced by the parameter
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
 giving:</p>
-<div style="text-align: center;" font-size: color: class="box">
-<b><u>Gompertz distribution: Parameterisation II</u></b>
-\[\begin{array}{l}
-\begin{array}{*{20}{c}}
-{{f_X}(x;a,b) = \frac{a}{b}\;{e^{\frac{x}{b}}}\;\exp \left[ { - a\left( {{e^{\frac{x}{b}}}\; - 1} \right)} \right]}&amp;{;\quad 0 \le x  0}
-\end{array}\\
-\begin{array}{*{20}{c}}
-{{F_X}(x;a,b) = 1 - \;\exp \left[ { - a\left( {{e^{\frac{x}{b}}}\; - 1} \right)} \right]}&amp;{;\quad 0 \le x  0}
-\end{array}
-\end{array}\]
+<div style="text-align: center; font-size: 1.2em; color: black; border: 1px solid black; padding: 10px; border-radius: 5px;">
+<p><b><u>Gompertz Distribution: Parameterisation II</u></b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mi>a</mi><mi>b</mi></mfrac><msup><mi>e</mi><mfrac><mi>x</mi><mi>b</mi></mfrac></msup><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mo>−</mo><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>e</mi><mfrac><mi>x</mi><mi>b</mi></mfrac></msup><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mo>,</mo><mspace width="1.0em"></mspace><mn>0</mn><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mi>∞</mi><mo>,</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{f_X}(x;a,b) = \frac{a}{b} e^{\frac{x}{b}} \exp\left[ -a\left(e^{\frac{x}{b}} - 1\right) \right], \quad 0 \leq x &lt; \infty, a, b &gt; 0</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mo>−</mo><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>e</mi><mfrac><mi>x</mi><mi>b</mi></mfrac></msup><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mo>,</mo><mspace width="1.0em"></mspace><mn>0</mn><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mi>∞</mi><mo>,</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{F_X}(x;a,b) = 1 - \exp\left[ -a\left(e^{\frac{x}{b}} - 1\right) \right], \quad 0 \leq x &lt; \infty, a, b &gt; 0</annotation></semantics></math></p>
 </div>
-<hr>
-<h4 id="gompertz-distribution-1">
-Sample Gompertz probability density and cumulative distribution
-functions
-<a class="anchor" aria-label="anchor" href="#gompertz-distribution-1"></a>
-</h4>
-<p><img src="distributions_files/figure-html/unnamed-chunk-11-1.png" width="576"><img src="distributions_files/figure-html/unnamed-chunk-11-2.png" width="576"></p>
+<p><br></p>
+<div class="figure" style="text-align: center">
+<img src="distributions_files/figure-html/unnamed-chunk-9-1.png" alt="A two panel plot showing several realisations of the Gompertz probability density function on the left panel and the cumulative density function of distribution on the right panel." width="864"><p class="caption">
+Sample Gompertz probability density (A) and cumulative probability (B)
+functions.
+</p>
+</div>
 <p>The Gompertz distribution is available in <code>ssdtools</code>,
-however parameter estimation can be somewhat unstable <span class="citation">(Fox et al. 2021b)</span>, and for this reason it is
+however parameter estimation can be somewhat unstable <span class="citation">(D. Fox et al. 2022)</span>, and for this reason it is
 not currently included in the default set.</p>
-<hr>
 </div>
 <div class="section level4">
 <h4 id="weibull-distribution">Weibull distribution<a class="anchor" aria-label="anchor" href="#weibull-distribution"></a>
@@ -560,26 +519,21 @@ and
 tend to either zero and/or infinity in specific ways.</p>
 <p>The two-parameter <a href="https://en.wikipedia.org/wiki/Weibull_distribution" class="external-link">Weibull</a>
 distribution has the following <em>pdf</em> and <em>cdf</em>:</p>
-<div style="text-align: center;" font-size: color: class="box">
-<b><u>Weibull distribution</u></b>
-\[\begin{array}{l}
-\begin{array}{*{20}{c}}
-{{f_X}(x;a,b) = \frac{c}{\theta }\,{{\left( {\frac{x}{\theta }} \right)}^{c - 1}}{e^{ - {{\left( {\frac{x}{\theta }} \right)}^c}}}}&amp;{;\quad 0 \le x  0}
-\end{array}\\
-\begin{array}{*{20}{c}}
-{{F_X}(x;a,b) = 1 - \;{e^{ - {{\left( {\frac{x}{\theta }} \right)}^c}}}}&amp;{;\quad 0 \le x  0}
-\end{array}
-\end{array}\]
+<div style="text-align: center; font-size: 1.2em; color: black; border: 1px solid black; padding: 10px; border-radius: 5px;">
+<p><b><u>Weibull Distribution</u></b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>c</mi><mo>,</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mi>c</mi><mi>θ</mi></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>x</mi><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>c</mi><mo>−</mo><mn>1</mn></mrow></msup><msup><mi>e</mi><mrow><mo>−</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>x</mi><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>c</mi></msup></mrow></msup><mo>,</mo><mspace width="1.0em"></mspace><mn>0</mn><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mi>∞</mi><mo>,</mo><mi>c</mi><mo>,</mo><mi>θ</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{f_X}(x;c,\theta) = \frac{c}{\theta} \left( \frac{x}{\theta} \right)^{c - 1} e^{-\left( \frac{x}{\theta} \right)^c}, \quad 0 \leq x &lt; \infty, c, \theta &gt; 0</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>c</mi><mo>,</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>x</mi><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>c</mi></msup></mrow></msup><mo>,</mo><mspace width="1.0em"></mspace><mn>0</mn><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mi>∞</mi><mo>,</mo><mi>c</mi><mo>,</mo><mi>θ</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{F_X}(x;c,\theta) = 1 - e^{-\left( \frac{x}{\theta} \right)^c}, \quad 0 \leq x &lt; \infty, c, \theta &gt; 0</annotation></semantics></math></p>
 </div>
+<p><br></p>
 <p>The Weibull distribution can be fitted in <code>ssdtools</code> by
 supplying the string <code>weibull</code> to the <code>dists</code>
 argument in the <code>ssd_fit_dists</code> call.</p>
-<hr>
-<h4 id="weibull-distribution-1">
-Sample Weibull probability density and cumulative distribution functions
-<a class="anchor" aria-label="anchor" href="#weibull-distribution-1"></a>
-</h4>
-<p><img src="distributions_files/figure-html/unnamed-chunk-12-1.png" width="576"><img src="distributions_files/figure-html/unnamed-chunk-12-2.png" width="576"></p>
+<div class="figure" style="text-align: center">
+<img src="distributions_files/figure-html/unnamed-chunk-10-1.png" alt="A two panel plot showing several realisations of the Weibull probability density function on the left panel and the cumulative density function of distribution on the right panel." width="864"><p class="caption">
+Sample Weibull probability density (A) and cumulative probability (B)
+functions.
+</p>
+</div>
 </div>
 <div class="section level4">
 <h4 id="inverse-pareto-distribution">Inverse Pareto distribution<a class="anchor" aria-label="anchor" href="#inverse-pareto-distribution"></a>
@@ -590,12 +544,12 @@ the <code>dists</code> argument in the <code>ssd_fit_dists</code>
 call.</p>
 <p>While the inverse Pareto distribution is implemented in the
 <code>Burrlioz 2.0</code> software, it is important to understand that
-it is done so only as one of the limiting Burr distributions (see <a href="https://bcgov.github.io/ssdtools/articles/E_additional-technical-details.html" class="external-link">technical
+it is done so only as one of the limiting Burr distributions (see <a href="https://bcgov.github.io/ssdtools/articles/E_additional-technical-details.html">technical
 details</a>). The inverse Pareto is not offered as a stand-alone option
 in the <code>Burrlioz 2.0</code> software. We have spent considerable
 time and effort exploring the properties of the inverse Pareto
 distribution, including deriving bias correction equations and
-alternative methods for deriving confidence intervals <span class="citation">(Fox et al. 2021b)</span>. This work has substantial
+alternative methods for deriving confidence intervals <span class="citation">(D. Fox et al. 2022)</span>. This work has substantial
 value for improving the current <code>Burrlioz 2.0</code> method, and
 our bias corrections should be adopted when deriving <em>HCx</em>
 estimates from the inverse Pareto where parameters have been estimated
@@ -613,7 +567,7 @@ and some authors and texts will use
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
 while others use
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mn>1</mn><mi>β</mi></mfrac><annotation encoding="application/x-tex">\frac{1}{\beta }</annotation></semantics></math>.
-An example of this re-paramterisation was given above for the Gompertz
+An example of this re-parameterisation was given above for the Gompertz
 distribution. While the choice of mathematical representation may be
 purely preferential, it is sometimes done for mathematical convenience.
 For example, Parameterisation I of the Gompertz distribution above was
@@ -641,29 +595,21 @@ limiting case of the Burr distribution).</p>
 <em>European</em> and <em>North American</em> versions. Their
 <em>pdfs</em> and <em>cdfs</em> are given below.</p>
 <hr>
-<div style="text-align: left;" font-size: color: class="box">
-                    <b><u>(Inverse)Pareto distribution - North American version</u><br><br>Pareto distribution</b>
-
-\[\begin{array}{l}
-\begin{array}{*{20}{c}}
-{{f_X}\left( {x;\alpha ,\beta } \right) = \alpha {\kern 1pt} {\beta ^\alpha }{\kern 1pt} {x^{ - \left( {\alpha  + 1} \right)}}}&amp;;
-\end{array}\quad x &gt; \beta ;\;\alpha ,\beta  &gt; 0\\
-\begin{array}{*{20}{c}}
-{{F_X}\left( {x;\alpha ,\beta } \right) = 1 - {{\left( {\frac{\beta }{x}} \right)}^\alpha }}&amp;;
-\end{array}\quad x &gt; \beta ;\;\alpha ,\beta  &gt; 0
-\end{array}\]
-Now, if X has the Pareto distribution above, then \[Y = \frac{1}{X}\] has an <i>inverse Pareto distribution.</i><br><br><b>inverse Pareto distribution</b>
-\[\begin{array}{l}
-\begin{array}{*{20}{c}}
-{{g_Y}\left( {y;\alpha ,\beta } \right) = \alpha {\kern 1pt} {\beta ^\alpha }{\kern 1pt} {y^{\alpha  - 1}}}&amp;;
-\end{array}\quad y \le \frac{1}{\beta };\;\;\alpha ,\beta  &gt; 0\\
-\begin{array}{*{20}{c}}
-{{G_Y}\left( {y;\alpha ,\beta } \right) = {{\left( {\beta \,y} \right)}^\alpha }}&amp;;
-\end{array}\quad 0  0
-\end{array}\]
+<div style="text-align: left; font-size: 1.2em; color: black; border: 1px solid black; padding: 10px; border-radius: 5px;">
+<p>                    <b><u>(Inverse) Pareto Distribution - North
+American Version</u><br><br> Pareto Distribution</b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>α</mi><msup><mi>β</mi><mi>α</mi></msup><msup><mi>x</mi><mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msup><mo>,</mo><mspace width="1.0em"></mspace><mi>x</mi><mo>&gt;</mo><mi>β</mi><mo>,</mo><mspace width="0.278em"></mspace><mi>α</mi><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{f_X}\left( {x;\alpha ,\beta } \right) = \alpha \beta^\alpha x^{-(\alpha + 1)}, \quad x &gt; \beta, \; \alpha, \beta &gt; 0</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>β</mi><mi>x</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup><mo>,</mo><mspace width="1.0em"></mspace><mi>x</mi><mo>&gt;</mo><mi>β</mi><mo>,</mo><mspace width="0.278em"></mspace><mi>α</mi><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{F_X}\left( {x;\alpha ,\beta } \right) = 1 - \left( \frac{\beta}{x} \right)^\alpha, \quad x &gt; \beta, \; \alpha, \beta &gt; 0</annotation></semantics></math></p>
+<p>Now, if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+has the Pareto distribution above, then <br><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mfrac><mn>1</mn><mi>X</mi></mfrac></mrow><annotation encoding="application/x-tex"> Y = \frac{1}{X} </annotation></semantics></math><br> has an <i>inverse Pareto distribution.</i><br><br><b>Inverse Pareto
+Distribution</b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mi>Y</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>;</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>α</mi><msup><mi>β</mi><mi>α</mi></msup><msup><mi>y</mi><mrow><mi>α</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>,</mo><mspace width="1.0em"></mspace><mi>y</mi><mo>≤</mo><mfrac><mn>1</mn><mi>β</mi></mfrac><mo>,</mo><mspace width="0.278em"></mspace><mi>α</mi><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{g_Y}\left( {y;\alpha ,\beta } \right) = \alpha \beta^\alpha y^{\alpha - 1}, \quad y \le \frac{1}{\beta}, \; \alpha, \beta &gt; 0</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>G</mi><mi>Y</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>;</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>β</mi><mi>y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup><mo>,</mo><mspace width="1.0em"></mspace><mn>0</mn><mo>&lt;</mo><mi>y</mi><mo>≤</mo><mfrac><mn>1</mn><mi>β</mi></mfrac><mo>,</mo><mspace width="0.278em"></mspace><mi>α</mi><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{G_Y}\left( {y;\alpha ,\beta } \right) = \left( \beta y \right)^\alpha, \quad 0 &lt; y \le \frac{1}{\beta}, \; \alpha, \beta &gt; 0</annotation></semantics></math></p>
 </div>
-<p><br><br>Importantly, we see that the <em>North American</em> versions
-of these distributions are <b><u>bounded</u></b> with the Pareto
+<p><br></p>
+<p>Importantly, we see that the <em>North American</em> versions of
+these distributions are <b><u>bounded</u></b> with the Pareto
 distribution bounded <strong>below</strong> by
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
 and the inverse Pareto distribution bounded <em>above</em> by
@@ -695,59 +641,52 @@ Pareto distribution to your data - the parameter estimates are the
 (Inverse)Pareto distribution is not useful as a stand-alone SSD - more
 so for the <em>inverse Pareto</em> distribution since it is bounded from
 <em>above</em>.</p>
-<h4 id="inverse-pareto-distribution-1">
-Sample North American Pareto probability density and cumulative
-distribution functions
-<a class="anchor" aria-label="anchor" href="#inverse-pareto-distribution-1"></a>
-</h4>
-<p><img src="distributions_files/figure-html/unnamed-chunk-13-1.png" width="576"><img src="distributions_files/figure-html/unnamed-chunk-13-2.png" width="576"></p>
-<p><br>We see from the <em>pdf</em> plots that the</p>
-<h4 id="inverse-pareto-distribution-2">
-Sample North American inverse Pareto probability density and cumulative
-distribution functions
-<a class="anchor" aria-label="anchor" href="#inverse-pareto-distribution-2"></a>
-</h4>
-<p><img src="distributions_files/figure-html/unnamed-chunk-14-1.png" width="576"><img src="distributions_files/figure-html/unnamed-chunk-14-2.png" width="576"></p>
-<p>The alternative, <em>European</em> version of the inverse Pareto
-distribution is a more realistic candidate.</p>
-<hr>
-<div style="text-align: left;" font-size: color: class="box">
-                    <b><u>(Inverse)Pareto distribution - European version</u><br><br>Pareto distribution</b>
-\[\begin{array}{l}
-\begin{array}{*{20}{c}}
-{{f_X}\left( {x;\alpha ,\beta } \right) = \frac{{\alpha \,\beta \,{x^{\alpha  - 1}}}}{{{{\left( {x + \beta } \right)}^{\alpha  + 1}}}}}&amp;;
-\end{array}\quad x,\;\alpha ,\beta  &gt; 0\\
-\begin{array}{*{20}{c}}
-{{F_X}\left( {x;\alpha ,\beta } \right) = 1 - {{\left( {\frac{\beta }{{x + \beta }}} \right)}^\alpha }}&amp;;
-\end{array}\quad x,\;\alpha ,\beta  &gt; 0
-\end{array}\]
-Now, if X has the Pareto distribution above, then \[Y = \frac{1}{X}\] has an <i>inverse Pareto distribution.</i><br><br><b>inverse Pareto distribution</b>
-\[\begin{array}{l}
-\begin{array}{*{20}{c}}
-{{g_Y}\left( {y;\alpha ,\beta } \right) = \frac{{\alpha {\kern 1pt} {\beta ^\alpha }{\kern 1pt} {y^{\alpha  - 1}}}}{{{{\left( {1 + \beta y} \right)}^{\alpha  + 1}}}}}&amp;;
-\end{array}\quad y,\;\alpha ,\beta  &gt; 0\\
-\begin{array}{*{20}{c}}
-{{G_Y}\left( {y;\alpha ,\beta } \right) = {{\left( {\frac{{\beta y}}{{1 + \beta y}}} \right)}^\alpha }}&amp;;
-\end{array}\quad y,\;\alpha ,\beta  &gt; 0
-\end{array}\]
+<div class="figure" style="text-align: center">
+<img src="distributions_files/figure-html/unnamed-chunk-11-1.png" alt="A two panel plot showing several realisations of the North American Pareto probability density function on the left panel and the cumulative density function of distribution on the right panel." width="864"><p class="caption">
+Sample North American Pareto probability density (A) and cumulative
+probability (B) functions.
+</p>
 </div>
+<div class="figure" style="text-align: center">
+<img src="distributions_files/figure-html/unnamed-chunk-12-1.png" alt="A two panel plot showing several realisations of the North American inverse Pareto probability density function on the left panel and the cumulative density function of distribution on the right panel." width="864"><p class="caption">
+Sample North American inverse Pareto probability density (A) and
+cumulative probability (B) functions.
+</p>
+</div>
+<p>We see from the <em>pdf</em> plots that the alternative,
+<em>European</em> version of the inverse Pareto distribution is a more
+realistic candidate.</p>
+<hr>
+<div style="text-align: left; font-size: 1.2em; color: black; border: 1px solid black; padding: 10px; border-radius: 5px;">
+<p>                    <b><u>(Inverse) Pareto Distribution - European
+Version</u><br><br> Pareto Distribution</b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>α</mi><mi>β</mi><msup><mi>x</mi><mrow><mi>α</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>+</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>α</mi><mo>+</mo><mn>1</mn></mrow></msup></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mi>x</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{f_X}\left( {x;\alpha ,\beta } \right) = \frac{\alpha \beta x^{\alpha - 1}}{\left( x + \beta \right)^{\alpha + 1}}, \quad x, \alpha, \beta &gt; 0</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>β</mi><mrow><mi>x</mi><mo>+</mo><mi>β</mi></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup><mo>,</mo><mspace width="1.0em"></mspace><mi>x</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{F_X}\left( {x;\alpha ,\beta } \right) = 1 - \left( \frac{\beta}{x + \beta} \right)^\alpha, \quad x, \alpha, \beta &gt; 0</annotation></semantics></math></p>
+<p>Now, if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+has the Pareto distribution above, then <br><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mfrac><mn>1</mn><mi>X</mi></mfrac></mrow><annotation encoding="application/x-tex"> Y = \frac{1}{X} </annotation></semantics></math><br> has an <i>inverse Pareto distribution.</i><br><br><b>Inverse Pareto
+Distribution</b></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mi>Y</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>;</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>α</mi><msup><mi>β</mi><mi>α</mi></msup><msup><mi>y</mi><mrow><mi>α</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>β</mi><mi>y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>α</mi><mo>+</mo><mn>1</mn></mrow></msup></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mi>y</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{g_Y}\left( {y;\alpha ,\beta } \right) = \frac{\alpha \beta^\alpha y^{\alpha - 1}}{\left( 1 + \beta y \right)^{\alpha + 1}}, \quad y, \alpha, \beta &gt; 0</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>G</mi><mi>Y</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>y</mi><mo>;</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>β</mi><mi>y</mi></mrow><mrow><mn>1</mn><mo>+</mo><mi>β</mi><mi>y</mi></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup><mo>,</mo><mspace width="1.0em"></mspace><mi>y</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">{G_Y}\left( {y;\alpha ,\beta } \right) = \left( \frac{\beta y}{1 + \beta y} \right)^\alpha, \quad y, \alpha, \beta &gt; 0</annotation></semantics></math></p>
+</div>
+<p><br></p>
 <p>We note in passing that <em>both</em> versions of these Pareto and
-inverse Pareto distrbutions are availabale in <code>R</code>. For
+inverse Pareto distrbutions are available in <code>R</code>. For
 example, the <code>R</code>package <code>extraDistr</code> has North
 American versions, while the <code>actuar</code> package has European
 versions.</p>
-<h4 id="inverse-pareto-distribution-3">
-Sample European Pareto probability density and cumulative distribution
-functions
-<a class="anchor" aria-label="anchor" href="#inverse-pareto-distribution-3"></a>
-</h4>
-<p><img src="distributions_files/figure-html/unnamed-chunk-15-1.png" width="576"><img src="distributions_files/figure-html/unnamed-chunk-15-2.png" width="576"></p>
-<h4 id="inverse-pareto-distribution-4">
-Sample European inverse Pareto probability density and cumulative
-distribution functions
-<a class="anchor" aria-label="anchor" href="#inverse-pareto-distribution-4"></a>
-</h4>
-<p><img src="distributions_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;"><img src="distributions_files/figure-html/unnamed-chunk-16-2.png" width="672" style="display: block; margin: auto;"></p>
+<div class="figure" style="text-align: center">
+<img src="distributions_files/figure-html/unnamed-chunk-13-1.png" alt="A two panel plot showing several realisations of the European Pareto probability density function on the left panel and the cumulative density function of distribution on the right panel." width="864"><p class="caption">
+Sample European Pareto probability density (A) and cumulative
+probability (B) functions.
+</p>
+</div>
+<div class="figure" style="text-align: center">
+<img src="distributions_files/figure-html/unnamed-chunk-14-1.png" alt="A two panel plot showing several realisations of the European inverse Pareto probability density function on the left panel and the cumulative density function of distribution on the right panel." width="864"><p class="caption">
+Sample European inverse Pareto probability density (A) and cumulative
+probability (B) functions.
+</p>
+</div>
 </div>
 <div class="section level4">
 <h4 id="inverse-weibull-distribution-see-log-gumbel-above">Inverse Weibull distribution (see log-Gumbel, above)<a class="anchor" aria-label="anchor" href="#inverse-weibull-distribution-see-log-gumbel-above"></a>
@@ -767,9 +706,8 @@ call.</p>
 <div class="section level2">
 <h2 id="relationships-among-distributions-in-ssdtools">Relationships among distributions in <code>ssdtools</code><a class="anchor" aria-label="anchor" href="#relationships-among-distributions-in-ssdtools"></a>
 </h2>
-<h5 id="relationships-among-distributions-in-ssdtools-1">
-NOTES
-<a class="anchor" aria-label="anchor" href="#relationships-among-distributions-in-ssdtools-1"></a>
+<div class="section level5">
+<h5 id="notes">NOTES<a class="anchor" aria-label="anchor" href="#notes"></a>
 </h5>
 <ol style="list-style-type: decimal">
 <li><p>In the diagram below,
@@ -795,71 +733,85 @@ distributions are <strong>unbounded</strong>; the <em>North
 American</em> versions are <strong>bounded</strong>.</p></li>
 </ol>
 <hr>
-<p><img src="images%2Frelationships.png" style="width:100.0%"></p>
+<p><img src="images%2Frelationships.png" style="width:100.0%" alt="Flow diagram showing the relationship between the various statistical distributions available in ssdtools."><br></p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-aldenberg_confidence_1993" class="csl-entry">
-Aldenberg T, Slob W (1993) Confidence <span>Limits</span> for
-<span>Hazardous</span> <span>Concentrations</span> <span>Based</span> on
-<span>Logistically</span> <span>Distributed</span> <span>NOEC</span>
-<span>Toxicity</span> <span>Data</span>. Ecotoxicology and Environmental
-Safety 25:48–63. <a href="https://doi.org/10.1006/eesa.1993.1006" class="external-link">https://doi.org/10.1006/eesa.1993.1006</a>
+Aldenberg, T., and W. Slob. 1993. <span>“Confidence <span>Limits</span>
+for <span>Hazardous</span> <span>Concentrations</span>
+<span>Based</span> on <span>Logistically</span> <span>Distributed</span>
+<span>NOEC</span> <span>Toxicity</span> <span>Data</span>.”</span>
+<em>Ecotoxicology and Environmental Safety</em> 25 (1): 48–63. <a href="https://doi.org/10.1006/eesa.1993.1006" class="external-link">https://doi.org/10.1006/eesa.1993.1006</a>.
 </div>
 <div id="ref-burr_cumulative_1942" class="csl-entry">
-Burr IW (1942) Cumulative <span>Frequency</span> <span>Functions</span>.
-The Annals of Mathematical Statistics 13:215–232
+Burr, Irving W. 1942. <span>“Cumulative <span>Frequency</span>
+<span>Functions</span>.”</span> <em>The Annals of Mathematical
+Statistics</em> 13 (2): 215–32.
 </div>
 <div id="ref-dalgarno_shinyssdtools_2021" class="csl-entry">
-Dalgarno S (2021) Shinyssdtools: <span>A</span> web application for
-fitting <span>Species</span> <span>Sensitivity</span>
-<span>Distributions</span> (<span>SSDs</span>). Journal of Open Source
-Software 6:2848. <a href="https://doi.org/10.21105/joss.02848" class="external-link">https://doi.org/10.21105/joss.02848</a>
+Dalgarno, Seb. 2021. <span>“Shinyssdtools: <span>A</span> Web
+Application for Fitting <span>Species</span> <span>Sensitivity</span>
+<span>Distributions</span> (<span>SSDs</span>).”</span> <em>Journal of
+Open Source Software</em> 6 (57): 2848. <a href="https://doi.org/10.21105/joss.02848" class="external-link">https://doi.org/10.21105/joss.02848</a>.
 </div>
 <div id="ref-fisher2019" class="csl-entry">
-Fisher R, Dam R van, Batley G, et al (2019) KEY ISSUES IN THE DERIVATION
-OF WATER QUALITY GUIDELINE VALUES: A WORKSHOP REPORT
-</div>
-<div id="ref-fox_2016" class="csl-entry">
-Fox DR (2016) <a href="https://shop.elsevier.com/books/marine-ecotoxicology/blasco/978-0-12-803371-5" class="external-link">Contemporary
-methods for statistical design and analysis</a>. In: Blasco J, Chapman
-PM, Campana O, Hampel M (eds) Marine Ecotoxicology
+Fisher, Rebecca, Rick van Dam, Graeme Batley, David Fox, Andrew Harford,
+Chris Humphrey, Cath King, Patricia Menendez, Andrew Negri, and Abigail
+Proctor. 2019. <span>“KEY ISSUES IN THE DERIVATION OF WATER QUALITY
+GUIDELINE VALUES: A WORKSHOP REPORT.”</span> Journal Article.
 </div>
 <div id="ref-fox_recent_2021" class="csl-entry">
-Fox DR, Dam RA, Fisher R, et al (2021a) Recent <span>Developments</span>
-in <span>Species</span> <span>Sensitivity</span>
-<span>Distribution</span> <span>Modeling</span>. Environmental
-Toxicology and Chemistry 40:293–308. <a href="https://doi.org/10.1002/etc.4925" class="external-link">https://doi.org/10.1002/etc.4925</a>
+Fox, D. R., R. A. Dam, R. Fisher, G. E. Batley, A. R. Tillmanns, J.
+Thorley, C. J. Schwarz, D. J. Spry, and K. McTavish. 2021. <span>“Recent
+<span>Developments</span> in <span>Species</span>
+<span>Sensitivity</span> <span>Distribution</span>
+<span>Modeling</span>.”</span> <em>Environmental Toxicology and
+Chemistry</em> 40 (2): 293–308. <a href="https://doi.org/10.1002/etc.4925" class="external-link">https://doi.org/10.1002/etc.4925</a>.
 </div>
-<div id="ref-fox_methodologies_2021" class="csl-entry">
-Fox DR, Fisher R, Thorley JL, Schwarz C (2021b) <a href="https://environmetrics.net/docs/FOX%20and%20FISHER%20Final_final_report_rev2.3.pdf?189db0&amp;189db0" class="external-link">Joint
-investigation into <span class="nocase">statistical</span> <span class="nocase">methodologies</span> underpinning the <span class="nocase">derivation</span> of <span class="nocase">toxicant</span>
+<div id="ref-fox_2016" class="csl-entry">
+Fox, David R. 2016. <span>“Contemporary Methods for Statistical Design
+and Analysis.”</span> <em>In: Blasco J, Chapman PM, Campana O, Hampel M
+(Eds) Marine Ecotoxicology.</em>, August. <a href="https://shop.elsevier.com/books/marine-ecotoxicology/blasco/978-0-12-803371-5" class="external-link">https://shop.elsevier.com/books/marine-ecotoxicology/blasco/978-0-12-803371-5</a>.
+</div>
+<div id="ref-fox_methodologies_2022" class="csl-entry">
+Fox, DR, R Fisher, JL Thorley, and C Schwarz. 2022. <span>“Joint
+Investigation into <span class="nocase">statistical</span> <span class="nocase">methodologies</span> Underpinning the <span class="nocase">derivation</span> of <span class="nocase">toxicant</span>
 <span class="nocase">guideline</span> <span class="nocase">values</span>
-in <span>Australia</span> and <span>New Zealand</span></a>.
-Environmetrics Australia; Australian Institute of Marine Science
+in <span>Australia</span> and <span>New Zealand</span>.”</span>
+Environmetrics Australia; Australian Institute of Marine Science. <a href="https://doi.org/10.25845/fm9b-7n28" class="external-link">https://doi.org/10.25845/fm9b-7n28</a>.
 </div>
 <div id="ref-newman_2000" class="csl-entry">
-Newman MC, Ownby DR, Mézin LCA, et al (2000) Applying <span class="nocase">species-sensitivity distributions</span> in <span class="nocase">ecological</span> <span class="nocase">risk
-assessment</span>: Assumptions of <span class="nocase">distribution
-type</span> and sufficient <span class="nocase">numbers of
-species</span>. Environmental Toxicology and Chemistry 19:508–515. <a href="https://doi.org/10.1002/etc.5620190233" class="external-link">https://doi.org/10.1002/etc.5620190233</a>
+Newman, Michael C., David R. Ownby, Laurent C. A. Mézin, David C.
+Powell, Tyler R. L. Christensen, Scott B. Lerberg, and Britt-Anne
+Anderson. 2000. <span>“Applying <span class="nocase">species-sensitivity
+distributions</span> in <span class="nocase">ecological</span> <span class="nocase">risk assessment</span>: Assumptions of <span class="nocase">distribution type</span> and Sufficient <span class="nocase">numbers of species</span>.”</span> <em>Environmental
+Toxicology and Chemistry</em> 19 (February): 508–15. <a href="https://doi.org/10.1002/etc.5620190233" class="external-link">https://doi.org/10.1002/etc.5620190233</a>.
 </div>
 <div id="ref-shao_estimation_2000" class="csl-entry">
-Shao Q (2000) Estimation for hazardous concentrations based on
-<span>NOEC</span> toxicity data: An alternative approach. 13
+Shao, Quanxi. 2000. <span>“Estimation for Hazardous Concentrations Based
+on <span>NOEC</span> Toxicity Data: An Alternative Approach,”</span> 13.
+</div>
+<div id="ref-thorley_ssdtools_2018" class="csl-entry">
+Thorley, Joe, and Carl Schwarz. 2018. <span>“Ssdtools: <span>An</span>
+<span>R</span> Package to Fit <span>Species</span>
+<span>Sensitivity</span> <span>Distributions</span>.”</span> <em>Journal
+of Open Source Software</em> 3 (31): 1082. <a href="https://doi.org/10.21105/joss.01082" class="external-link">https://doi.org/10.21105/joss.01082</a>.
 </div>
 <div id="ref-Zajdlik_2005" class="csl-entry">
-Zajdlik B (2005) Statistical analysis of the SSD approach for
-development of canadian water quality guidelines. Zajdlik; Associates
+Zajdlik, B. 2005. <span>“Statistical Analysis of the SSD Approach for
+Development of Canadian Water Quality Guidelines.”</span> CCME Project
+354‐200/5. Zajdlik; Associates.
 </div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="licensing">Licensing<a class="anchor" aria-label="anchor" href="#licensing"></a>
 </h2>
-<p>Copyright 2018-2024 Province of British Columbia<br>
+<p>Copyright 2015-2023 Province of British Columbia<br>
 Copyright 2021 Environment and Climate Change Canada<br>
 Copyright 2023-2024 Australian Government Department of Climate Change,
 Energy, the Environment and Water</p>
@@ -868,7 +820,7 @@ License</a></p>
 <p>The code is released under the <a href="https://www.apache.org/licenses/LICENSE-2.0" class="external-link">Apache License
 2.0</a></p>
 </div>
-  <aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -889,8 +841,5 @@ License</a></p>
 
 
 
-  </main>
-</div>
-</div>
-</body>
+  </body>
 </html>
